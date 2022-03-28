@@ -2,6 +2,7 @@ package Billprint.Import;
 
 
 import Billprint.Import.Item.CSVItem;
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +15,7 @@ import java.io.IOException;
 @CrossOrigin
 @RequestMapping("/api/import")
 @RequiredArgsConstructor
+
 public class ImportController {
 
     private final ImportService importService;

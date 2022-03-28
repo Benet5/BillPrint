@@ -10,9 +10,8 @@ import org.springframework.stereotype.Service;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 
-@RequiredArgsConstructor
-
 @Service
+@RequiredArgsConstructor
 public class ImportService {
     private final CSVRepo csvRepo;
 
