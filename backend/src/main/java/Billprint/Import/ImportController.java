@@ -1,8 +1,7 @@
 package Billprint.Import;
 
 
-import Billprint.Import.Item.CSVItem;
-import lombok.Data;
+import Billprint.Import.Item.ItemDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -10,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 
 @RestController
 @CrossOrigin
@@ -21,10 +21,10 @@ public class ImportController {
     private final ImportService importService;
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<CSVItem> createItem(@RequestBody CSVItem item) {
+    public ResponseEntity<ItemDTO> createItem(@RequestBody ItemDTO item) {
         return ResponseEntity
                 .status(201)
-                .body(CSVItem.of(importService.createItem(item.toItem())));
+                .body(ItemDTO.of(importService.createItem(item.toItem())));
     }
 
 
@@ -37,5 +37,11 @@ public class ImportController {
             return ResponseEntity.unprocessableEntity().build();
         }
         return ResponseEntity.badRequest().build();
+    }
+
+
+    @GetMapping
+    public List<ItemDTO> getImportedData(){
+       return importService.getImportedData();
     }
 }

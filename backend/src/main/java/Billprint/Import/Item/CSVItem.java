@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
@@ -20,10 +21,8 @@ public class CSVItem {
 
     @CsvBindByName
     private String name;
-
     @CsvBindByName
     private String listingID;
-
     @CsvBindByName
     private String title;
     @CsvBindByName
@@ -32,24 +31,12 @@ public class CSVItem {
     private int runtime;
     @CsvBindByName
     private String listingAction;
-
     @CsvBindByName
     private String date;
-
-    public static Date toDate(String date) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-        LocalDate localDate = LocalDate.parse(date, formatter);
-        Date newDate = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
-        return newDate;
-    }
-
-
     @CsvBindByName
     private String jobLocation;
-
     @CsvBindByName
     private String customer;
-
     @CsvBindByName
     private String addressName;
     @CsvBindByName
@@ -58,10 +45,24 @@ public class CSVItem {
     private String addressLocation;
 
 
+    public static Date toDate(String date) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        LocalDate localDate = LocalDate.parse(date, formatter);
+        Date newDate = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+        return newDate;
+    }
+/*
+    public static String dateToString(Date date){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        return formatter.format(date);
+    }
+
+ */
 
 
-public static CSVItem of(Item item){
 
+/*
+    public static CSVItem of(Item item){
     return new CSVItem(
             item.getName(),
             item.getListingID(),
@@ -78,6 +79,7 @@ public static CSVItem of(Item item){
     );
 }
 
+ */
 
 
 public Item toItem(){

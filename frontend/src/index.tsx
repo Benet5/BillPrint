@@ -2,10 +2,20 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import {BrowserRouter, Route, Routes} from "react-router-dom";
+import CSVImport from "./CSVImport";
+import DataTable from "./DataTable";
 
 ReactDOM.render(
     <React.StrictMode>
-        <App />
+       <BrowserRouter>
+            <Routes>
+                <Route path ="/" element ={<App/>}/>
+                <Route path ="/api/import" element ={<CSVImport/>}/>
+                <Route path ="/api/table" element ={<DataTable/>}/>
+                <Route path="/*" element={<CSVImport/>}/>
+            </Routes>
+       </BrowserRouter>
     </React.StrictMode>,
   document.getElementById('root')
 );

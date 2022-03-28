@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import CSVImport from "./CSVImport";
+import {Outlet} from "react-router-dom";
 
 function App() {
 
@@ -20,7 +20,8 @@ function App() {
     return (
         <div>
             {greeting}
-            <CSVImport/>
+            <Outlet/>
+
         </div>
     );
 }

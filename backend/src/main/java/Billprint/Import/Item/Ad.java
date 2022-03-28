@@ -17,15 +17,10 @@ public class Ad {
 
 
     private String title;
-
     private String type;
-
     private int runtime;
-
     private String listingAction;
-
     private Date date;
-
     private String jobLocation;
 
 

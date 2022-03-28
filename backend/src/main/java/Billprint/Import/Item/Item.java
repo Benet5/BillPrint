@@ -9,7 +9,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Date;
-@Document(collection = "CSVItems")
+@Document(collection = "Items")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
