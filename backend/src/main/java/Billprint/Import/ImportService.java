@@ -2,6 +2,7 @@ package Billprint.Import;
 
 import Billprint.Import.Item.CSVItem;
 import Billprint.Import.Item.Item;
+import Billprint.Import.Item.ItemDTO;
 import lombok.RequiredArgsConstructor;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
@@ -9,6 +10,9 @@ import org.springframework.stereotype.Service;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
+
+
 
 @Service
 @RequiredArgsConstructor
@@ -36,6 +40,11 @@ public class ImportService {
         } catch (IllegalStateException | IllegalArgumentException | IOException e) {
             return ImportStatus.FAILURE;
         }
+    }
+
+    public List<ItemDTO> getImportedData(){
+        return csvRepo.findAll().stream()
+                .map(item -> ItemDTO.of(item)).toList();
     }
 
 
