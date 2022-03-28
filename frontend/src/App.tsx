@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import CSVImport from "./CSVImport";
 
 function App() {
 
@@ -19,6 +20,7 @@ function App() {
     return (
         <div>
             {greeting}
+            <CSVImport/>
         </div>
     );
 }
