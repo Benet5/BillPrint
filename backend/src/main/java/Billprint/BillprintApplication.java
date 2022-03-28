@@ -1,13 +1,13 @@
-package com.example.demo;
+package Billprint;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class DemoApplication {
+public class BillprintApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(DemoApplication.class, args);
+		SpringApplication.run(BillprintApplication.class, args);
 	}
 
 }
