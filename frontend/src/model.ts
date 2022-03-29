@@ -1,10 +1,12 @@
 
+
 export interface ImportedData{
 name : string;
 ad : Ad;
 customer: string;
 listingID: string;
 address: Address;
+links: Array<Link>;
 
 }
 
@@ -22,4 +24,9 @@ export interface Address{
     addressStreet : string;
     addressLocation: string;
 
+}
+
+interface Link {
+    href: string;
+    rel: string
 }

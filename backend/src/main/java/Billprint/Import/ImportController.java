@@ -41,7 +41,18 @@ public class ImportController {
 
 
     @GetMapping
-    public List<ItemDTO> getImportedData(){
-       return importService.getImportedData();
+    public List<ItemDTO> getImportedData() {
+        return importService.getImportedData();
+    }
+
+
+    @PutMapping("/{id}")
+    public ItemDTO changeItem(@PathVariable String id, @RequestBody ItemDTO item) {
+        return importService.changeItem(id, item.toItem());
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteItem(@PathVariable String id) {
+        importService.deleteById(id);
     }
 }

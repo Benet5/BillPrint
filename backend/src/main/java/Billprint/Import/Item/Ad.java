@@ -5,9 +5,7 @@ import com.opencsv.bean.CsvBindByName;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import java.text.SimpleDateFormat;
-import java.time.Duration;
 import java.util.Date;
 
 @Data
@@ -24,8 +22,12 @@ public class Ad {
     private String jobLocation;
 
 
+
     public String dateToString(Date date){
         SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
         return formatter.format(date);
     }
+
+
+
 }
