@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
@@ -16,8 +15,6 @@ import java.util.Date;
 @NoArgsConstructor
 @Data
 public class CSVItem {
-
-
 
     @CsvBindByName
     private String name;
@@ -51,35 +48,7 @@ public class CSVItem {
         Date newDate = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
         return newDate;
     }
-/*
-    public static String dateToString(Date date){
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-        return formatter.format(date);
-    }
 
- */
-
-
-
-/*
-    public static CSVItem of(Item item){
-    return new CSVItem(
-            item.getName(),
-            item.getListingID(),
-            item.getAd().getTitle(),
-            item.getAd().getType(),
-            item.getAd().getRuntime(),
-            item.getAd().getListingAction(),
-            item.getAd().getJobLocation(),
-            item.getAd().dateToString(item.getAd().getDate()),
-            item.getCustomer(),
-            item.getAddress().getName(),
-            item.getAddress().getStreet(),
-            item.getAddress().getLocation()
-    );
-}
-
- */
 
 
 public Item toItem(){
