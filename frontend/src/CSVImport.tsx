@@ -1,5 +1,7 @@
 import React, {useState} from "react";
 import axios from "axios";
+import Navbar from "./Navbar";
+import "./DataTable.css";
 
 export default function CSVImport() {
     const [errorMessage, setErrorMessage] = useState('');
@@ -24,14 +26,21 @@ export default function CSVImport() {
     }
 
         return (
-            <div>
+            <div >
+                <div><Navbar/></div>
+
+                 <div>
                 {errorMessage}
-                <div>
-                    <input type="file" onChange={ev => importData(ev.target.files![0])}/>
+                <div className="main">
+                    <h5>Es dürfen nur CSV-Dateien im UTF8 Format hochgeladen werden. Achte bitte auf die vorgegebene Spaltenstruktur.</h5>
+                    <label className="buttonFrame">
+                    <input type="file" accept=".csv"onChange={ev => importData(ev.target.files![0])}/> CSV Upload
+                    </label>
                 </div>
 
             </div>
 
+            </div>
         )
 
 }

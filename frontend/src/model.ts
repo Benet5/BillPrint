@@ -15,14 +15,14 @@ export interface Ad{
    type: string;
    runtime: number;
    listingAction: string;
-   date: String;
+   date: string;
    jobLocation: string;
 }
 
 export interface Address{
-    addressName: string;
-    addressStreet : string;
-    addressLocation: string;
+    name: string;
+    street : string;
+    location: string;
 
 }
 

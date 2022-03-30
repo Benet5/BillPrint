@@ -1,11 +1,14 @@
 import axios from "axios";
 import {ImportedData} from "./model";
 import {useEffect, useState} from "react";
+import "./DataTable.css";
+import DataItem from "./DataItem";
+import Navbar from "./Navbar";
 
 export default function DataTable() {
     const [allData, setAllData] = useState([] as Array <ImportedData>)
     const [errorMessage, setErrorMessage] = useState('');
-
+    const loadingMessage =("Die Seite lädt nicht!");
 
     useEffect(()=>{
         getImportedData()
@@ -32,26 +35,41 @@ export default function DataTable() {
         })
     }
 
-
+    //Sortieren vor dem Map!
     return (
+    <div>
+        <div><Navbar/></div>
+
+        <div className="main">
+    <div className="parent">
+    <h5>Name</h5>
+        <h5>Title</h5>
+        <h5>Anzeigentyp</h5>
+        <h5>Laufzeit (in Tagen)</h5>
+        <h5>Auftragsart</h5>
+        <h5>Ausschreibungsort</h5>
+        <h5>Auftraggeber</h5>
+        <h5>Anschrift</h5>
+        <h5>Straße, Hausnummer</h5>
+        <h5>PLZ, Ort</h5>
+
+    </div>
 
 
-        //table of Items, rows und Columns festlegen
-        <div>
-            {allData ?
 
-                allData.map((e : ImportedData, index) => <div key={e.name+index}>
-                    {e.name}
-                </div>)
+    {allData.length>0 ?
+        allData.map((e: ImportedData, index) => <div key={e.name + index}>
 
+            <DataItem item={e} key={e.name + index}/></div>)
+        :
 
-
-
-                : {errorMessage}
-            }
+            <div> {loadingMessage}</div>
+    }
 
 
         </div>
+    </div>
+
     )
 }
 
