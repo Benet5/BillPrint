@@ -63,7 +63,7 @@ export default function DataTable() {
             <DataItem item={e} key={e.name + index}/></div>)
         :
 
-            <div> {loadingMessage}</div>
+            <div> {loadingMessage} {errorMessage}</div>
     }
 
 
