@@ -1,21 +1,26 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import CSVImport from "./CSVImport";
 import DataTable from "./DataTable";
+import Clients from "./Clients";
 
 ReactDOM.render(
     <React.StrictMode>
+    <Suspense fallback ="Loading...">
        <BrowserRouter>
             <Routes>
-                <Route path ="/" element ={<App/>}/>
-                <Route path ="/api/import" element ={<CSVImport/>}/>
-                <Route path ="/api/table" element ={<DataTable/>}/>
-                <Route path="/*" element={<CSVImport/>}/>
+                <Route path ="/" element ={<App/>}>
+                    <Route path ="/api/import" element ={<CSVImport/>}/>
+                    <Route path ="/table" element ={<DataTable/>}/>
+                    <Route path= "/clients" element ={<Clients/>}/>
+                    <Route path="/*" element={<CSVImport/>}/>
+                </Route>
             </Routes>
        </BrowserRouter>
+    </Suspense>
     </React.StrictMode>,
   document.getElementById('root')
 );

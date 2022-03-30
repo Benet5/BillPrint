@@ -90,14 +90,13 @@ class ImportServiceTest {
         InputStream input = getClass().getResourceAsStream("data.csv");
 
         importService.createItems(input);
-AdDTO adDTO = new AdDTO("Head of Compliance & Geldwäschebeauftragter (w/m/d) | Payments","Professional", 60, "Offer First Online","26.10.2020","Hamburg Zentrale" );
+        AdDTO adDTO = new AdDTO("Head of Compliance & Geldwäschebeauftragter (w/m/d) | Payments","Professional", 60, "Offer First Online","26.10.2020","Hamburg Zentrale" );
         Ad ad = adDTO.toAd();
         Address address = new Address("Otto (GmbH & Co KG)","Werner-Otto-Straße 1-7","22179 Hamburg");
 
         verify(csvRepo).saveAll(List.of(
                 new Item(null,"Otto (GmbH & Co KG)","6653722",ad, "Otto (GmbH & Co KG)", address)
         ));
-
 
 
     }
