@@ -23,18 +23,17 @@ public class ClientDTO {
 
     public static ClientDTO of(Client client){
         List<Link> links = List.of(
-                Link.of("api/client/" + client.getId(), "self")
+                Link.of("/api/clients/" + client.getId(), "self")
         );
 
         return new ClientDTO(
                 client.getAddress().getName(),
                 client.getAddress().getStreet(),
                 client.getAddress().getLocation(),
-                client.isTax(),  // ist das der getter? testen!
+                client.isTax(),
                 client.getFee(),
                 client.getSkonto(),
                 links
-
 
         );
 
