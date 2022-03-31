@@ -1,16 +1,37 @@
 import Navbar from "./Navbar";
 import {useState} from "react";
 import "./Client.css"
+import axios from "axios";
+import ClientTable from "./ClientTable";
 
 export default function Clients(){
 const [clientName, setClientName] = useState('')
 const [street, setStreet] = useState('')
 const [location, setLocation] = useState('')
 
-const [taxes, setTaxes] =useState(false)
-const handleTaxes = ()=>setTaxes(!taxes);
+const [tax, setTaxes] =useState(false)
+const handleTaxes = ()=>setTaxes(!tax);
 const [fee, setFee] =useState(2)
 const[skonto, setSkonto] = useState(0)
+const [errorMessage, setErrorMessage] =useState('')
+
+
+
+
+   const createClient = () =>{
+       const streetExport= street.replace(/(\r\n|\n|\r)/gm, "")
+       const locationExport= location.replace(/(\r\n|\n|\r)/gm, "")
+       const clientNameExport= clientName.replace(/(\r\n|\n|\r)/gm, "")
+       axios.post(`${process.env.REACT_APP_BASE_URL}/api/clients`, {
+                   name: clientNameExport,
+                   street: streetExport,
+                   location: locationExport,
+                   tax: tax,
+                   fee: fee,
+                   skonto: skonto,
+           }
+       ).catch(error => setErrorMessage(error))
+   }
 
     //fetches Post,Put, Get, Delete
 
@@ -24,6 +45,8 @@ const[skonto, setSkonto] = useState(0)
                     <p>Hier können die Mandaten angelegt oder bearbeitet werden. Achte darauf, dass je Mandatenname nur
                         ein
                         Datensatz existieren kann.</p>
+                    <button className="buttonFrame" onClick={createClient}>Mandaten anlegen</button>
+                    {errorMessage.length>2 ?{errorMessage} :''}
                 </div>
                 <div className="clientForm">
                     <div className="address">
@@ -38,7 +61,7 @@ const[skonto, setSkonto] = useState(0)
                     <div className="calcData">
                         <div className="calcPair">
                         <div>Verrechnungsdaten: Zuschläge</div>
-                            <input className="inputCalc" checked={taxes} type="checkbox" onClick={handleTaxes}/>
+                            <input className="inputCalc" type="checkbox" onClick={handleTaxes}/>
                             <span className="description">19% Mehrwertsteuer</span>
                         </div>
                         <div className="calcPair">
@@ -55,6 +78,8 @@ const[skonto, setSkonto] = useState(0)
                     </div>
 
                 </div>
+
+                <div><ClientTable/></div>
             </div>
 
         </div>

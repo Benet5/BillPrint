@@ -25,7 +25,7 @@ public class ItemDTO {
     public static ItemDTO of(Item item) {
 
         List<Link> links = List.of(
-                Link.of("api/items/" + item.getId(), "self")
+                Link.of("api/import/" + item.getId(), "self")
         );
         return new ItemDTO(
                 item.getCustomer(),
