@@ -17,15 +17,14 @@ public class ClientController {
 
     @PostMapping
     public ResponseEntity<ClientDTO> createClient(@RequestBody ClientDTO client) {
-        try{
             if((clientService.findByAddressName(client.toClient())).isEmpty()) {
                 Client newClient = clientService.createClient(client.toClient());
                 return ResponseEntity.status(201).body(ClientDTO.of(newClient));
-            } throw new ClientAlreadyExistsException();
-
-        } catch (ClientAlreadyExistsException e) {
-            return ResponseEntity.status(409).build();}
+            }
+            return ResponseEntity.status(409).build();
         }
+
+
 
 
     @GetMapping
@@ -35,13 +34,11 @@ public class ClientController {
 
     @PutMapping("/{id}")
     public ResponseEntity<ClientDTO> changeClient(@RequestBody ClientDTO client, @PathVariable String id){
-        if (clientService.findById(id).isPresent()) {
-            return ResponseEntity
-                    .status(200)
-                    .body(clientService.changeClient(id, client.toClient()));
-        }
-            return ResponseEntity.badRequest().build();
+        return ResponseEntity.of(clientService.findById(id)
+                .map(foundClient -> clientService.changeClient(id, client.toClient())));
     }
+
+
 
 
     @DeleteMapping("/{id}")
