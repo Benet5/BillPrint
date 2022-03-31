@@ -5,16 +5,16 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
+import static org.mockito.Mockito.*;
 class ClientServiceTest {
 
     @Test
 
-    void ShouldAddAClients() throws Exception {
+    void ShouldAddAClient() {
         ClientRepo clientRepo = mock(ClientRepo.class);
         ClientService clientService = new ClientService(clientRepo);
 
@@ -25,6 +25,7 @@ class ClientServiceTest {
         when(clientRepo.save(client1)).thenReturn(new Client("12345", address1, true, 3, 1));
         Client actual1= clientService.createClient(client1);
 
+        verify(clientRepo).save(client1);
         Assertions.assertEquals(actual1.getId(), client1.getId());
     }
 
@@ -52,5 +53,40 @@ class ClientServiceTest {
         Assertions.assertEquals(list.get(1).getName(), "Würstchenbude2");
     }
 
+    @Test
+
+    void ShouldChangeAClient(){
+        ClientRepo clientRepo = mock(ClientRepo.class);
+        ClientService clientService = new ClientService(clientRepo);
+
+        Address address1 = new Address("Würstchenbude", "Heimathafen 1", "225005 Helgoland");
+        Address address2 = new Address("Würstchenbude2", "Heimathafen 1", "225005 Helgoland");
+        Client clientDB = new Client ("12345", address1, true, 3, 1);
+        Client clientToChange = new Client("12345",address2, true, 3, 2);
+        Client clientChanged = new Client("12345",address2, true, 3, 2);
+
+        when(clientRepo.findById("12345")).thenReturn(Optional.of(clientDB));
+        when(clientRepo.save(clientToChange)).thenReturn(clientChanged);
+
+        ClientDTO actual = clientService.changeClient("12345",clientToChange);
+
+        Assertions.assertEquals(clientToChange.getAddress().getName(), actual.toClient().getAddress().getName());
+    }
+
+    @Test
+     void ShouldDeleteAClient(){
+        ClientRepo clientRepo = mock(ClientRepo.class);
+        ClientService clientService = new ClientService(clientRepo);
+
+        Address address1 = new Address("Würstchenbude", "Heimathafen 1", "225005 Helgoland");
+
+        Client clientToDelete = new Client ("12345", address1, true, 3, 1);
+
+        clientService.deleteById("12345");
+
+        verify(clientRepo).deleteById("12345");
+
+
+    }
 
 }

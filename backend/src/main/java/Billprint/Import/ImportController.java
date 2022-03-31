@@ -47,8 +47,13 @@ public class ImportController {
 
 
     @PutMapping("/{id}")
-    public ItemDTO changeItem(@PathVariable String id, @RequestBody ItemDTO item) {
-        return importService.changeItem(id, item.toItem());
+    public ResponseEntity<ItemDTO> changeItem(@PathVariable String id, @RequestBody ItemDTO item) {
+        if (importService.findById(id).isPresent()) {
+            return ResponseEntity
+                    .status(200)
+                    .body(importService.changeItem(id, item.toItem()));
+        }
+        return ResponseEntity.badRequest().build();
     }
 
     @DeleteMapping("/{id}")

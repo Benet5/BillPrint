@@ -49,13 +49,16 @@ public class ImportService {
                 .map(item -> ItemDTO.of(item)).toList();
     }
 
+    public Optional<Item> findById(String id) {
+        return csvRepo.findById(id);
+    }
 
     public void deleteAllData(){
         csvRepo.deleteAll();
     }
 
 
-    public void deleteById(String id){
+    public void deleteById (String id){
         csvRepo.deleteById(id);
     }
 
@@ -63,9 +66,6 @@ public class ImportService {
 
     public ItemDTO changeItem(String id, Item item){
         Optional<Item> toChange = csvRepo.findById(id);
-        if(toChange.isEmpty()){
-            throw new RuntimeException("Item ist nicht existent!");
-        }else{
             toChange.get().setCustomer(item.getCustomer());
             toChange.get().setListingID(item.getListingID());
             toChange.get().getAd().setTitle(item.getAd().getTitle());
@@ -79,7 +79,6 @@ public class ImportService {
             toChange.get().getAddress().setStreet(item.getAddress().getStreet());
             toChange.get().getAddress().setLocation(item.getAddress().getLocation());
             csvRepo.save(toChange.get());
-        }
         return ItemDTO.of(toChange.get());
     }
 
