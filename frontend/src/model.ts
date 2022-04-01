@@ -30,3 +30,15 @@ interface Link {
     href: string;
     rel: string
 }
+
+export interface ClientStructure{
+    name:string;
+    street: string;
+    location : string;
+   tax : boolean;
+    fee: number;
+  skonto: number;
+   links: Array <Link>;
+
+
+}

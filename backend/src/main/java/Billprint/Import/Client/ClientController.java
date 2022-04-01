@@ -26,7 +26,6 @@ public class ClientController {
 
 
 
-
     @GetMapping
     public List<ClientDTO> findAll(){
         return clientService.findAll();
@@ -37,7 +36,6 @@ public class ClientController {
         return ResponseEntity.of(clientService.findById(id)
                 .map(foundClient -> clientService.changeClient(id, client.toClient())));
     }
-
 
 
 

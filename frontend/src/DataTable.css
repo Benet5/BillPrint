@@ -8,10 +8,20 @@ p{
 .parent {
     display: grid;
     grid-template-columns:  repeat(3, 1fr) 70px repeat(6, 1fr) 50px;
-    /*grid-template-rows: repeat(auto-fill, 1fr);*/
     grid-column-gap: 4px;
     grid-row-gap: 2px;
     justify-items: start;
+
+}
+
+
+.parentClientTable{
+    display: grid;
+    grid-template-columns:  repeat(2, 1fr) repeat(4, 90px) 50px;
+    grid-column-gap: 4px;
+    grid-row-gap: 2px;
+    justify-items: start;
+
 
 }
 
@@ -38,6 +48,7 @@ input[type="file"] {
 
 .table{
     border: solid black 2px;
+    margin: 10px;
 
 }
 
