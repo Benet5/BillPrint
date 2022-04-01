@@ -21,18 +21,12 @@ export default function DataTable() {
                 'Content-Type': 'application/json'
             },
         }).then(response => {
-            if (response.status === 200 || 201) {
+            if (response.status === 200) {
                 return response.data;
-            }throw new Error()
-        })
-            .then((response2:Array<ImportedData>) =>{setAllData(response2)})
-            .catch(error => {
-            if (error.response.status === 422) {
-                setErrorMessage('Nicht alle Einträge konnten importiert werden!');
-            } else if (error.response.status === 400) {
-                setErrorMessage('Die Einträge wurde nicht importiert. Guck ins Log!!!');
+            }else {
+                setErrorMessage("Daten konnten nicht geladen werden!")
             }
-        })
+        }).then((response2:Array<ImportedData>) =>{setAllData(response2)})
     }
 
     //Sortieren vor dem Map!
