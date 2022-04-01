@@ -1,5 +1,5 @@
 import { useEffect} from "react";
-import {ClientStructure} from "./model";
+import {ClientStructure, Link} from "./model";
 
 import ClientItem from "./ClientItem";
 import "./DataTable.css";
@@ -7,6 +7,7 @@ import "./DataTable.css";
 interface ClientTableProps{
     getClientData : () => void;
     allClients : Array <ClientStructure>;
+    setToForm: (clientName :string, street:string, location:string, tax: boolean, fee: number, skonto: number, links: Array<Link>) => void;
 
 }
 export default function ClientTable(props: ClientTableProps){
@@ -34,7 +35,7 @@ export default function ClientTable(props: ClientTableProps){
                     {props.allClients.length &&
                         props.allClients.map((e: ClientStructure, index) => <div key={e.name + index}>
 
-                            <ClientItem item={e} key={e.name + index}/></div>)
+                            <ClientItem item={e} key={e.name + index} setToForm={props.setToForm}/></div>)
 
                     }
                 </div>
