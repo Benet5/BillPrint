@@ -26,7 +26,7 @@ export interface Address{
 
 }
 
-interface Link {
+export interface Link {
     href: string;
     rel: string
 }
@@ -35,10 +35,10 @@ export interface ClientStructure{
     name:string;
     street: string;
     location : string;
-   tax : boolean;
+    tax : boolean;
     fee: number;
-  skonto: number;
-   links: Array <Link>;
+    skonto: number;
+    links: Array <Link>;
 
 
 }
