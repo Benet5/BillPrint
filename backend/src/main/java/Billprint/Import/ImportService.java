@@ -1,5 +1,6 @@
 package Billprint.Import;
 
+import Billprint.Import.Client.Client;
 import Billprint.Import.Item.CSVItem;
 import Billprint.Import.Item.Item;
 import Billprint.Import.Item.ItemDTO;
@@ -49,6 +50,17 @@ public class ImportService {
                 .map(item -> ItemDTO.of(item)).toList();
     }
 
+    public List<Item> findAllMapping(){
+        return csvRepo.findAll();
+    }
+
+    public Item save(Item item){
+        return csvRepo.save(item);
+
+    }
+
+
+
     public Optional<Item> findById(String id) {
         return csvRepo.findById(id);
     }
@@ -81,6 +93,7 @@ public class ImportService {
             csvRepo.save(toChange.get());
         return ItemDTO.of(toChange.get());
     }
+
 
 
 }

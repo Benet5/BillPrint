@@ -12,7 +12,7 @@ export default function Clients() {
 
     const [errorMessage, setErrorMessage] = useState('')
     const [allClients, setAllClients] = useState([] as Array<ClientStructure>)
-    const [clientToChange, setClientToChange] = useState( {name: "ad", street: "asd", location: "asd", tax: false, fee: 0, skonto: 0, links: []} as ClientStructure);
+    const [clientToChange, setClientToChange] = useState( {name: "", street: "", location: "", tax: false, fee: 0, skonto: 0, links: []} as ClientStructure);
 
     const getClientData = () => {
         axios.get(`${process.env.REACT_APP_BASE_URL}/api/clients`, {
@@ -68,7 +68,7 @@ export default function Clients() {
                 'Content-Type': 'application/json'
             }
         }).then(getClientData)
-          .then(() => setClientToChange({name: "ad", street: "asd", location: "asd", tax: false, fee: 0, skonto: 0, links: []}))
+          .then(() => setClientToChange({name: "", street: "", location: "", tax: false, fee: 0, skonto: 0, links: []}))
           .catch(error => {
                 if (error.response.status === 409) {
                     setErrorMessage("Client konnte nicht aktualisiert werden!");
@@ -78,9 +78,7 @@ export default function Clients() {
             })
     }
 
-// {name: "", street: "", location: "", tax: false, fee: 0, skonto: 0, links: []}
 
-    // Das item vom item über den table an CLients zurückgeben, von hier aus an die Form übergeben. Ausd er form die changerequest abrufen von client.
     const setToForm = (name: string, street: string, location: string, tax: boolean, fee: number, skonto: number, links: Array<Link>) => {
         setClientToChange({
             name, street, location, tax, fee, skonto, links
@@ -93,7 +91,6 @@ export default function Clients() {
         }, [])
 
 
-        //fetches Post,Put, Get, Delete
 
 
         return (

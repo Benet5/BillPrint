@@ -38,7 +38,7 @@ public void deleteById(String id){
 }
 
 
-public Optional<Client>findByAddressName(Client client){
-        return (clientRepo.findByAddressName(client.getAddress().getName()));
+public Optional<Client>findByAddressName(String adressname){
+        return (clientRepo.findByAddressName(adressname));
 }
 }
