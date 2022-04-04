@@ -15,7 +15,7 @@ export default function ClientTable(props: ClientTableProps){
 
     useEffect(() => {
             props.getClientData()
-        }, [props]
+        }, [props.getClientData]
     )
 
     return (

@@ -17,7 +17,7 @@ public class ClientController {
 
     @PostMapping
     public ResponseEntity<ClientDTO> createClient(@RequestBody ClientDTO client) {
-            if((clientService.findByAddressName(client.toClient())).isEmpty()) {
+            if((clientService.findByAddressName(client.toClient().getAddress().getName())).isEmpty()) {
                 Client newClient = clientService.createClient(client.toClient());
                 return ResponseEntity.status(201).body(ClientDTO.of(newClient));
             }
