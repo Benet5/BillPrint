@@ -16,7 +16,9 @@ export default function ClientForm(props: ClientFormProps) {
     const [location, setLocation] = useState('')
 
     const [tax, setTaxes] = useState(false)
-    const handleTaxes = () => setTaxes(!tax);
+    const handleTaxes = () => {
+        setTaxes(tax ? false : true)
+    }
     const [fee, setFee] = useState(2)
     const [skonto, setSkonto] = useState(0)
 
@@ -39,6 +41,12 @@ export default function ClientForm(props: ClientFormProps) {
 
     const setData = () => {
         props.createClient(clientName, street, location, tax, fee, skonto);
+        setClientName("")
+        setStreet("")
+        setLocation("")
+        setTaxes(false)
+        setFee(0)
+        setSkonto(0)
     }
 
 
@@ -66,7 +74,7 @@ export default function ClientForm(props: ClientFormProps) {
                 <div className="calcData">
                     <div className="calcPair">
                         <div>Verrechnungsdaten: Zuschläge</div>
-                        <input className="inputCalc" type="checkbox" onClick={handleTaxes}/>
+                        <input className="inputCalc" type="checkbox" checked={tax} onChange={handleTaxes}/>
                         <span className="description">19% Mehrwertsteuer</span>
                     </div>
                     <div className="calcPair">

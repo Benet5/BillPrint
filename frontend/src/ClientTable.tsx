@@ -1,4 +1,4 @@
-import { useEffect} from "react";
+
 import {ClientStructure, Link} from "./model";
 
 import ClientItem from "./ClientItem";
@@ -12,11 +12,6 @@ interface ClientTableProps{
 }
 export default function ClientTable(props: ClientTableProps){
 
-
-    useEffect(() => {
-            props.getClientData()
-        }, [props]
-    )
 
     return (
 

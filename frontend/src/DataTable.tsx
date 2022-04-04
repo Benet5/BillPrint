@@ -1,5 +1,5 @@
 import axios from "axios";
-import {ImportedData} from "./model";
+import {Ad, Address, ImportedData, Link} from "./model";
 import {useEffect, useState} from "react";
 import "./DataTable.css";
 import DataItem from "./DataItem";
@@ -23,18 +23,51 @@ export default function DataTable() {
         }).then(response => {
             if (response.status === 200) {
                 return response.data;
-            }else {
-                setErrorMessage("Daten konnten nicht geladen werden!")
             }
         }).then((response2:Array<ImportedData>) =>{setAllData(response2)})
+            .catch(() => {
+                setErrorMessage("Daten konnten nicht geladen werden!");
+        })
     }
+
+
+    const mapAllAdresses = () => {
+        axios.put(`${process.env.REACT_APP_BASE_URL}/api/mapping`, {
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        }).then(getImportedData)
+            .catch(() => {
+            setErrorMessage("Daten konnten nicht geladen werden!");
+        })
+    }
+
+
+    const mapSelected = (name : string, ad : Ad, customer : string, listingID : string, address : Address, links : Array<Link>) => {
+        axios.put(`${process.env.REACT_APP_BASE_URL}${links.find(l => l.rel === 'self')?.href}`, {
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        }).then(getImportedData)
+            .catch(() => {
+                setErrorMessage("Daten konnten nicht geladen werden!");
+            })
+    }
+
+
+
+
 
     //Sortieren vor dem Map!
     return (
     <div>
         <div><Navbar/></div>
 
+
         <div className="main">
+            <div>
+                <button  className="buttonFrame" onClick={mapAllAdresses}>Alle Itemadressen mappen</button>
+            </div>
     <div className="parent">
     <h5>Name</h5>
         <h5>Title</h5>
@@ -54,7 +87,7 @@ export default function DataTable() {
     {allData.length>0 ?
         allData.map((e: ImportedData, index) => <div key={e.name + index}>
 
-            <DataItem item={e} key={e.name + index}/></div>)
+            <DataItem item={e} key={e.name + index} mapSelected={mapSelected}/></div>)
         :
 
             <div> {loadingMessage} {errorMessage}</div>
