@@ -20,8 +20,9 @@ public class ClientController {
             if((clientService.findByAddressName(client.toClient().getAddress().getName())).isEmpty()) {
                 Client newClient = clientService.createClient(client.toClient());
                 return ResponseEntity.status(201).body(ClientDTO.of(newClient));
+            } else {
+                return ResponseEntity.status(409).build();
             }
-            return ResponseEntity.status(409).build();
         }
 
 
@@ -33,8 +34,12 @@ public class ClientController {
 
     @PutMapping("/{id}")
     public ResponseEntity<ClientDTO> changeClient(@RequestBody ClientDTO client, @PathVariable String id){
-        return ResponseEntity.of(clientService.findById(id)
-                .map(foundClient -> clientService.changeClient(id, client.toClient())));
+        if(clientService.findById(id).isPresent()){
+            return ResponseEntity.of(clientService.findById(id)
+                    .map(foundClient -> clientService.changeClient(id, client.toClient())));
+        } else{
+            return ResponseEntity.status(409).build();
+        }
     }
 
 

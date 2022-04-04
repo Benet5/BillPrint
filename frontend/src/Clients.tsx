@@ -22,12 +22,12 @@ export default function Clients() {
         }).then(response => {
             if (response.status === 200) {
                 return response.data;
-            } else {
-                setErrorMessage("Daten konnten nicht geladen werden!");
             }
         }).then((response2: Array<ClientStructure>) => {
             setAllClients(response2)
-        })
+        }).catch(() =>
+            setErrorMessage("Daten konnten nicht geladen werden!")
+        )
     }
 
     const createClient = (clientName: string, street: string, location: string, tax: boolean, fee: number, skonto: number) => {
@@ -35,19 +35,20 @@ export default function Clients() {
         const locationExport = location.replace(/(\r\n|\n|\r)/gm, "")
         const clientNameExport = clientName.replace(/(\r\n|\n|\r)/gm, "")
         axios.post(`${process.env.REACT_APP_BASE_URL}/api/clients`, {
-                name: clientNameExport,
-                street: streetExport,
-                location: locationExport,
-                tax: tax,
-                fee: fee,
-                skonto: skonto,
-            }
-        ).then(getClientData)
+            name: clientNameExport,
+            street: streetExport,
+            location: locationExport,
+            tax: tax,
+            fee: fee,
+            skonto: skonto,
+        })
+            .then(getClientData)
             .catch(error => {
-                if (error.response.status === 409) {
-                    setErrorMessage("Client existiert schon!");
-                } else {
-                    setErrorMessage("Unbekannter Fehler bei der Mandantenanlage.")
+                if(error.response.status === 409)
+                {
+                    setErrorMessage("Dieser Client existiert schon!");
+                }else {
+                    setErrorMessage("Unbekannter Fehler");
                 }
             })
     }
@@ -93,11 +94,13 @@ export default function Clients() {
 
 
 
+
+
         return (
             <div>
                 <div><Navbar/></div>
                 <div className="main">
-                    {errorMessage.length > 2 ? {errorMessage} : ""}
+                    <div>{errorMessage}</div>
                     <div className=""><ClientForm createClient={createClient} allClients={allClients}
                                                   clientToChange={clientToChange} changeClient={changeClient} /></div>
                     <div className="table"><ClientTable getClientData={getClientData} allClients={allClients}

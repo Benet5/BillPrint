@@ -17,7 +17,7 @@ p{
 
 .parentClientTable{
     display: grid;
-    grid-template-columns:  repeat(2, 1fr) repeat(4, 90px) 50px;
+    grid-template-columns:  repeat(2, 1fr) repeat(4, 90px) 70px;
     grid-column-gap: 4px;
     grid-row-gap: 2px;
     justify-items: start;

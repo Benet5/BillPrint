@@ -1,12 +1,15 @@
-import {ImportedData} from "./model";
+import {Ad, Address, ImportedData, Link} from "./model";
 interface DataItemProps{
     item : ImportedData
+    mapSelected : (name : string, ad : Ad, customer : string, listingID : string, address : Address, links : Array<Link>) => void;
 
 }
 
 export default function DataItem(props : DataItemProps){
 
-
+const map = () =>{
+    props.mapSelected(props.item.name, props.item.ad, props.item.customer, props.item.listingID, props.item.address, props.item.links);
+    }
 
     return (
 
@@ -21,7 +24,7 @@ export default function DataItem(props : DataItemProps){
     <p className="eigthColumn">{props.item.address.name}</p>
     <p className="nineColumn">{props.item.address.street}</p>
     <p className="tenColumn">{props.item.address.location}</p>
-    <div className="elevenColumn"><button  className="buttonFrame">Button</button> </div>
+    <div className="elevenColumn"><button  onClick={map} className="buttonFrame">Mappen</button> </div>
 </div>
 
     )

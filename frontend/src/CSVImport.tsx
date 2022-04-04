@@ -2,9 +2,11 @@ import React, {useState} from "react";
 import axios from "axios";
 import Navbar from "./Navbar";
 import "./DataTable.css";
+import {useNavigate} from "react-router-dom";
 
 export default function CSVImport() {
     const [errorMessage, setErrorMessage] = useState('');
+    const navigate = useNavigate()
 
      const importData = (file: File | null) => {
         const fileData = new FormData();
@@ -22,7 +24,7 @@ export default function CSVImport() {
             } else if (error.response.status === 400) {
                 setErrorMessage('Die Einträge wurde nicht importiert. Guck ins Log!!!');
             }
-        })
+        }).then(() =>navigate("/table"));
     }
 
         return (
