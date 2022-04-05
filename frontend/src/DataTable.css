@@ -25,6 +25,13 @@ p{
 
 }
 
+.error{
+    color:red;
+text-align: center;
+}
+
+
+
 .buttonFrame{
     background-color:#64C8B9;
     padding: 5px;
