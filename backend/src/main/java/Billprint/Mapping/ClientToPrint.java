@@ -53,7 +53,7 @@ public class ClientToPrint {
     }
 
 
-    public double calcNetto() {
+    private double calcNetto() {
         double sum = 0;
         for (Item item : allItemsFromClient) {
             if (item.getAd().getType().equals("Professional")) {
@@ -64,35 +64,35 @@ public class ClientToPrint {
         } return sum;
     }
 
-    public double calcSkonto() {
+    private double calcSkonto() {
         double doubleSkonto = skonto;
         return netto * (doubleSkonto / 100);
     }
 
-    public double calcFee() {
+    private double calcFee() {
         double doubleFee = fee;
         return netto * (doubleFee / 100);
     }
 
-    public double calcTax() {
+    private double calcTax() {
         if (tax) {
             return netto * 0.19;
         } else return 0;
     }
 
-    public double round(double d) {
+    private double round(double d) {
         return (Math.round(d*100))/100;
     }
 
-    public double calcSumInklSkonto(){
+    private double calcSumInklSkonto(){
         return round(netto-calcSkonto);
     }
 
-    public double calcsumInklFee(){
+    private double calcsumInklFee(){
         return round(sumInklSkonto + calcFee);
     }
 
-    public double calcbrutto(){
+    private double calcbrutto(){
         return round(sumInklFee + calcTax);
     }
 
