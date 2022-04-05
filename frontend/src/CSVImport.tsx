@@ -31,7 +31,7 @@ export default function CSVImport() {
             <div >
                 <div><Navbar/></div>
 
-                 <div>
+                 <div className="error">
                 {errorMessage}
                 <div className="main">
                     <h5>Es dürfen nur CSV-Dateien im UTF8 Format hochgeladen werden. Achte bitte auf die vorgegebene Spaltenstruktur.</h5>

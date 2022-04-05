@@ -90,7 +90,7 @@ export default function DataTable() {
             <DataItem item={e} key={e.name + index} mapSelected={mapSelected}/></div>)
         :
 
-            <div> {loadingMessage} {errorMessage}</div>
+            <div className="error"> {loadingMessage} {errorMessage}</div>
     }
 
 

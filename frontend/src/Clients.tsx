@@ -34,6 +34,7 @@ export default function Clients() {
         const streetExport = street.replace(/(\r\n|\n|\r)/gm, "")
         const locationExport = location.replace(/(\r\n|\n|\r)/gm, "")
         const clientNameExport = clientName.replace(/(\r\n|\n|\r)/gm, "")
+        if (clientName.length > 3) {
         axios.post(`${process.env.REACT_APP_BASE_URL}/api/clients`, {
             name: clientNameExport,
             street: streetExport,
@@ -51,32 +52,43 @@ export default function Clients() {
                     setErrorMessage("Unbekannter Fehler");
                 }
             })
+    }else setErrorMessage("Bitte gib einen Namen ein.")
     }
 
     const changeClient = (clientName: string, street: string, location: string, tax: boolean, fee: number, skonto: number, links: Array<Link>) => {
         const streetExport = street.replace(/(\r\n|\n|\r)/gm, "")
         const locationExport = location.replace(/(\r\n|\n|\r)/gm, "")
         const clientNameExport = clientName.replace(/(\r\n|\n|\r)/gm, "")
-        axios.put(`${process.env.REACT_APP_BASE_URL}${links.find(l => l.rel === 'self')?.href}`, {
-            name: clientNameExport,
-            street: streetExport,
-            location: locationExport,
-            tax: tax,
-            fee: fee,
-            skonto: skonto
-        }, {
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        }).then(getClientData)
-          .then(() => setClientToChange({name: "", street: "", location: "", tax: false, fee: 0, skonto: 0, links: []}))
-          .catch(error => {
-                if (error.response.status === 409) {
-                    setErrorMessage("Client konnte nicht aktualisiert werden!");
-                } else {
-                    setErrorMessage("Unbekannter Fehler bei der Mandantenanlage.")
+        if (clientName.length > 3) {
+            axios.put(`${process.env.REACT_APP_BASE_URL}${links.find(l => l.rel === 'self')?.href}`, {
+                name: clientNameExport,
+                street: streetExport,
+                location: locationExport,
+                tax: tax,
+                fee: fee,
+                skonto: skonto
+            }, {
+                headers: {
+                    'Content-Type': 'application/json'
                 }
-            })
+            }).then(getClientData)
+                .then(() => setClientToChange({
+                    name: "",
+                    street: "",
+                    location: "",
+                    tax: false,
+                    fee: 0,
+                    skonto: 0,
+                    links: []
+                }))
+                .catch(error => {
+                    if (error.response.status === 409) {
+                        setErrorMessage("Client konnte nicht aktualisiert werden!");
+                    } else {
+                        setErrorMessage("Unbekannter Fehler bei der Mandantenanlage.")
+                    }
+                })
+        } else setErrorMessage("Bitte gib einen Namen ein.")
     }
 
 
@@ -100,7 +112,7 @@ export default function Clients() {
             <div>
                 <div><Navbar/></div>
                 <div className="main">
-                    <div>{errorMessage}</div>
+                    <div className="error">{errorMessage}</div>
                     <div className=""><ClientForm createClient={createClient} allClients={allClients}
                                                   clientToChange={clientToChange} changeClient={changeClient} /></div>
                     <div className="table"><ClientTable getClientData={getClientData} allClients={allClients}
