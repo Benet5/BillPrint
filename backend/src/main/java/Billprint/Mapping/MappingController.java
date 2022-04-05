@@ -1,6 +1,7 @@
 package Billprint.Mapping;
 
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.collections4.Put;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,5 +29,9 @@ public class MappingController {
         }
     }
 
+    @PutMapping("/convert")
+    public void convertClients(){
+        mappingService.convertClient();
+    }
 
 }

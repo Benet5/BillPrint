@@ -54,11 +54,16 @@ public class ImportService {
         return csvRepo.findAll();
     }
 
+
+
     public Item save(Item item){
         return csvRepo.save(item);
 
     }
 
+    public List<Item> findAllByName(String name){
+        return csvRepo.findAllByName(name);
+    }
 
 
     public Optional<Item> findById(String id) {

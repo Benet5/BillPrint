@@ -29,7 +29,7 @@ public class ClientController {
 
     @GetMapping
     public List<ClientDTO> findAll(){
-        return clientService.findAll();
+        return clientService.findAll().stream().map(e -> ClientDTO.of(e)).toList();
     }
 
     @PutMapping("/{id}")
