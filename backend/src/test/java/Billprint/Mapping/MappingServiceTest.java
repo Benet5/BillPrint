@@ -106,26 +106,26 @@ class MappingServiceTest {
         Item newItem4 = new Item("12345", "OSSG", "bla", ad, "OSSG", address1);
         List <Item> items1 = List.of(newItem1, newItem2);
         List <Item> items2 = List.of(newItem3, newItem4);
+        when(importRepo.findAllByName("OSSG")).thenReturn(items2);
+        when(importRepo.findAllByName("OTTO GmBH & Co KG")).thenReturn(items1);
 
         Client client1 = new Client ("12345", address, true, 2, 1);
         Client client2 = new Client ("12346", address1, true, 2, 1);
         ClientToPrint clientToPrint1 = new ClientToPrint(client1, importService);
         ClientToPrint clientToPrint2 = new ClientToPrint(client2, importService);
+        System.out.println(clientToPrint1);
 
-
-        when(clientService.findAll()).thenReturn(List.of(client1, client2));
+        when(clientRepo.findAll()).thenReturn(List.of(client1, client2));
         when(clientToPrintRepo.save(clientToPrint1)).thenReturn(clientToPrint1);
         when(clientToPrintRepo.save(clientToPrint2)).thenReturn(clientToPrint2);
-        when(importService.findAllByName("OSSG")).thenReturn(items2);
-        when(importService.findAllByName("OTTO GmBH & Co KG")).thenReturn(items1);
+
 
         List<ClientToPrint> actual = mappingService.convertClient();
 
         assertEquals(2, actual.size());
-        assertEquals(0.40, actual.get(0).getFee());
-       /*
-        assertEquals(7, actual.get(1).getSkonto());
-  */
+        assertEquals(2.0, actual.get(0).getFee());
+        assertEquals(22, actual.get(1).getBrutto());
+
     }
 
 
