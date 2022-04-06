@@ -83,4 +83,9 @@ public class MappingService {
         } return allConverted;
 
     }
+
+    public List<ClientToPrint> findAll(){
+        return clientToPrintRepo.findAll();
+    }
+
 }
