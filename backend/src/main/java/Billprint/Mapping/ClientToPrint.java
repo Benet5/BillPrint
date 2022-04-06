@@ -8,6 +8,7 @@ import Billprint.Import.ImportService;
 import Billprint.Import.Item.Address;
 import Billprint.Import.Item.Item;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -15,6 +16,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.util.List;
 
 @Data
+@NoArgsConstructor
 @Document("ClientToPrint")
 public class ClientToPrint {
 
@@ -33,6 +35,7 @@ public class ClientToPrint {
     private double sumInklSkonto;
     private double sumInklFee;
     private double brutto;
+
 
 
 
