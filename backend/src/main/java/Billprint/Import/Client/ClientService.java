@@ -15,8 +15,8 @@ public class ClientService {
         }
 
 
-    public List<ClientDTO> findAll(){
-        return clientRepo.findAll().stream().map(e -> ClientDTO.of(e)).toList();
+    public List<Client> findAll(){
+        return clientRepo.findAll();
     }
 
     public Optional<Client> findById(String id){
@@ -40,5 +40,7 @@ public void deleteById(String id){
 
 public Optional<Client>findByAddressName(String adressname){
         return (clientRepo.findByAddressName(adressname));
+
+
 }
 }

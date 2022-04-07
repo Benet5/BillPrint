@@ -46,11 +46,11 @@ class ClientServiceTest {
 
 
         when(clientRepo.findAll()).thenReturn(List.of(client1, client2));
-        List<ClientDTO> list = clientService.findAll();
+        List<Client> list = clientService.findAll();
 
         Assertions.assertEquals(list.size(), 2);
-        assertThat(list.contains(clientDTO1));
-        Assertions.assertEquals(list.get(1).getName(), "Würstchenbude2");
+        assertThat(list.contains(client1));
+        Assertions.assertEquals(list.get(1).getAddress().getName(), "Würstchenbude2");
     }
 
     @Test

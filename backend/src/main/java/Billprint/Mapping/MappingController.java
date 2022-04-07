@@ -1,8 +1,11 @@
 package Billprint.Mapping;
 
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.collections4.Put;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @CrossOrigin
@@ -28,5 +31,13 @@ public class MappingController {
         }
     }
 
+    @PutMapping("/convert")
+    public void convertClients(){
+        mappingService.convertClient();
+    }
 
+    @GetMapping
+    public List<ClientToPrint> findall(){
+        return mappingService.findAll();
+    }
 }
