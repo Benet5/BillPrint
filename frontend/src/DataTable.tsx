@@ -6,14 +6,14 @@ import DataItem from "./DataItem";
 import Navbar from "./Navbar";
 
 export default function DataTable() {
-    const [allData, setAllData] = useState([] as Array <ImportedData>)
+    const [allData, setAllData] = useState([] as Array<ImportedData>)
     const [errorMessage, setErrorMessage] = useState('');
-    const loadingMessage =("Die Seite lädt nicht!");
+    const [loadingMessage, setLoadingMessage] = useState("");
 
-    useEffect(()=>{
-        getImportedData()
-        },[]
-        )
+    useEffect(() => {
+            getImportedData()
+        }, []
+    )
 
     const getImportedData = () => {
         axios.get(`${process.env.REACT_APP_BASE_URL}/api/import`, {
@@ -24,10 +24,12 @@ export default function DataTable() {
             if (response.status === 200) {
                 return response.data;
             }
-        }).then((response2:Array<ImportedData>) =>{setAllData(response2)})
+        }).then((response2: Array<ImportedData>) => {
+            setAllData(response2)
+        })
             .catch(() => {
                 setErrorMessage("Daten konnten nicht geladen werden!");
-        })
+            })
     }
 
 
@@ -38,12 +40,12 @@ export default function DataTable() {
             },
         }).then(getImportedData)
             .catch(() => {
-            setErrorMessage("Daten konnten nicht geladen werden!");
-        })
+                setErrorMessage("Daten konnten nicht geladen werden!");
+            })
     }
 
 
-    const mapSelected = (name : string, ad : Ad, customer : string, listingID : string, address : Address, links : Array<Link>) => {
+    const mapSelected = (name: string, ad: Ad, customer: string, listingID: string, address: Address, links: Array<Link>) => {
         axios.put(`${process.env.REACT_APP_BASE_URL}${links.find(l => l.rel === 'self')?.href}`, {
             headers: {
                 'Content-Type': 'application/json'
@@ -53,6 +55,39 @@ export default function DataTable() {
                 setErrorMessage("Daten konnten nicht geladen werden!");
             })
     }
+
+
+    const createClientToPrint = () => {
+        axios.put(`${process.env.REACT_APP_BASE_URL}/api/mapping/convert`, {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then(response => {
+            if (response.status === 200) {
+                return response.data;
+            }
+        }).then(response => setLoadingMessage(response))
+            .catch(() => {
+                setErrorMessage("Daten konnten nicht erstellt werden!");
+            })
+    }
+
+    const downloadPDF = () => {
+        axios.put(`${process.env.REACT_APP_BASE_URL}/generate`, {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then(response => {
+            if (response.status === 200) {
+                setLoadingMessage("PDFs wurden generiert.")
+            }
+        }).catch(() => {
+                setErrorMessage("Daten konnten nicht erstellt werden!");
+            })
+    }
+
+
+
 
 
 
@@ -66,8 +101,11 @@ export default function DataTable() {
 
         <div className="main">
             <div>
-                <button  className="buttonFrame" onClick={mapAllAdresses}>Alle Itemadressen mappen</button>
+                <button  className="buttonFrame" onClick={mapAllAdresses}>1. Alle Itemadressen mappen</button>
+                <span><button className="buttonFrame" onClick={createClientToPrint}>2. Rechnungen vorbereiten</button></span>
+                <span><button className="buttonFrame" onClick={downloadPDF}>3. Rechnungen herunterladen</button></span>
             </div>
+        <div className="success"> {loadingMessage} </div>
     <div className="parent">
     <h5>Name</h5>
         <h5>Title</h5>
@@ -90,7 +128,7 @@ export default function DataTable() {
             <DataItem item={e} key={e.name + index} mapSelected={mapSelected}/></div>)
         :
 
-            <div className="error"> {loadingMessage} {errorMessage}</div>
+            <div className="error">  {errorMessage}</div>
     }
 
 

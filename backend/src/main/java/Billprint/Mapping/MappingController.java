@@ -32,8 +32,13 @@ public class MappingController {
     }
 
     @PutMapping("/convert")
-    public void convertClients(){
-        mappingService.convertClient();
+    public String convertClients(){
+        try{
+            mappingService.convertClient();
+            return "Rechnungs-Daten wurden erfolgreich erstellt.";
+        } catch(Exception e){
+            return e.getMessage();
+        }
     }
 
     @GetMapping

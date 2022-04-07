@@ -30,6 +30,13 @@ p{
 text-align: center;
 }
 
+.success{
+    color: #FFFAAF;
+    text-align: center;
+    font-weight: bold;
+    margin: 15px;
+}
+
 
 
 .buttonFrame{

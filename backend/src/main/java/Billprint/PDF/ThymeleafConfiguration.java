@@ -10,7 +10,7 @@ public class ThymeleafConfiguration {
     @Bean
     public ClassLoaderTemplateResolver emailTemplateResolver(){
         ClassLoaderTemplateResolver emailTemplateResolver=new ClassLoaderTemplateResolver();
-        emailTemplateResolver.setPrefix("templates/");
+        emailTemplateResolver.setPrefix("static/templates/");
         emailTemplateResolver.setTemplateMode("HTML5");
         emailTemplateResolver.setSuffix(".html");
         emailTemplateResolver.setTemplateMode("XHTML");
