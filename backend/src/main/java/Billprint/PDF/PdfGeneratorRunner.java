@@ -12,6 +12,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import java.io.FileOutputStream;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,12 +28,13 @@ public class PdfGeneratorRunner {
     @Autowired
     private PdfGenerateService pdfGenerateService;
 
-    @GetMapping("/generate")
 
     public void run(ClientToPrint clientToPrint) throws Exception {
         Map<String, Object> data = new HashMap<>();
         data.put("clientToPrint", (clientToPrint));
         List<Item> allItemsFromClient = clientToPrint.getAllItemsFromClient();
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        String dateNow = dtf.format(LocalDateTime.now());
         String addressName = clientToPrint.getAddress().getName();
         String addressStreet = clientToPrint.getAddress().getStreet();
         String addressLocation =clientToPrint.getAddress().getLocation();
@@ -41,6 +45,7 @@ public class PdfGeneratorRunner {
         double sumInklSkonto = clientToPrint.getSumInklSkonto();
         double sumInklFee = clientToPrint.getSumInklFee();
         double brutto = clientToPrint.getBrutto();
+        data.put("dateNow", dateNow);
         data.put("netto", netto);
         data.put("addressName", addressName);
         data.put("addressStreet", addressStreet);
