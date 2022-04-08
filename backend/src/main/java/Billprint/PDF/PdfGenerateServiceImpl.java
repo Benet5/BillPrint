@@ -16,6 +16,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Map;
 @Service
 public class PdfGenerateServiceImpl implements PdfGenerateService{
@@ -27,9 +28,9 @@ public class PdfGenerateServiceImpl implements PdfGenerateService{
     //@Value("${pdf.directory}")
     private final String pdfDirectory = System.getProperty("user.home") + File.separator;
 
-
+// alternative: try mit resources FileOutputStream fileOutputStream = new FileOutputStream(pdfDirectory + pdfFileName)
     @Override
-    public void generatePdfFile(String templateName, Map<String, Object> data, String pdfFileName) {
+    public void generatePdfFile(String templateName, Map<String, Object> data, String pdfFileName)  {
         Context context = new Context();
         context.setVariables(data);
 
@@ -44,6 +45,12 @@ public class PdfGenerateServiceImpl implements PdfGenerateService{
             renderer.finishPDF();
         } catch (DocumentException | FileNotFoundException e) {
             logger.error(e.getMessage(), e);
+        }finally {
+            try{ if(fileOutputStream != null)
+                fileOutputStream.close();
+            } catch (IOException d){
+                logger.error(d.getMessage());
+            }
         }
     }
 
