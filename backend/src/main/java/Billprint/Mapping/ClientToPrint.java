@@ -59,27 +59,31 @@ public class ClientToPrint {
     private double calcNetto() {
         double sum = 0;
         for (Item item : allItemsFromClient) {
-            if (item.getAd().getType().equals("Professional")) {
+            if (item.getAd().getType().equals("Professional") && !item.getAd().getListingAction().equals("Refund")) {
                  sum += 10.0;
-            } else {
+            } else if (item.getAd().getType().equals("Campus") && !item.getAd().getListingAction().equals("Refund")) {
                  sum += 5.0;
+            } else if (item.getAd().getType().equals("Professional") && item.getAd().getListingAction().equals("Refund")){
+                 sum -= 10.0;
+            }else if (item.getAd().getType().equals("Campus") && item.getAd().getListingAction().equals("Refund")){
+                sum -= 5.0;
             }
         } return sum;
     }
 
     private double calcSkonto() {
         double doubleSkonto = skonto;
-        return round(netto * (doubleSkonto / 100));
+        return round(Math.abs(netto * (doubleSkonto / 100)));
     }
 
     private double calcFee() {
         double doubleFee = fee;
-        return round(netto * (doubleFee / 100));
+        return round(Math.abs(netto * (doubleFee / 100)));
     }
 
     private double calcTax() {
         if (tax) {
-            return round(netto * 0.19);
+            return round(Math.abs(netto * 0.19));
         } else return 0;
     }
 
@@ -88,16 +92,28 @@ public class ClientToPrint {
     }
 
     private double calcSumInklSkonto(){
+        if(netto<0.0){
+            return round(netto+calcSkonto);
+        }
         return round(netto-calcSkonto);
     }
 
-    private double calcSumInklFee(){
-        return round(sumInklSkonto + calcFee);
+    private double calcSumInklFee() {
+        if (sumInklSkonto < 0.0) {
+            return round(sumInklSkonto - calcFee);
+        }return round(sumInklSkonto + calcFee);
     }
 
-    private double calcbrutto(){
-        return round(sumInklFee + calcTax);
+    private double calcbrutto() {
+        if (sumInklFee < 0.0) {
+            return round(sumInklFee - calcTax);
+        }return round(sumInklFee + calcTax);
     }
 
+    private String finalStatement(){
+        if (brutto > 0.0){
+            return "Bitte überweisen sie den ausstehenden Betrag zeitnah.";
+        } return "Der überzählige Betrag wird Ihnen zeitnah erstattet.";
+    }
 
 }
