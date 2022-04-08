@@ -124,7 +124,7 @@ class MappingServiceTest {
 
         assertEquals(2, actual.size());
         assertEquals(2.0, actual.get(0).getFee());
-        assertEquals(22, actual.get(1).getBrutto());
+        assertEquals(23, actual.get(1).getBrutto());
 
     }
 

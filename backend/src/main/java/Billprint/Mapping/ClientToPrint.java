@@ -51,7 +51,7 @@ public class ClientToPrint {
         this.calcFee = calcFee();
         this.calcTax = calcTax();
         this.sumInklSkonto =calcSumInklSkonto();
-        this.sumInklFee = calcsumInklFee();
+        this.sumInklFee = calcSumInklFee();
         this.brutto = calcbrutto();
     }
 
@@ -69,17 +69,17 @@ public class ClientToPrint {
 
     private double calcSkonto() {
         double doubleSkonto = skonto;
-        return netto * (doubleSkonto / 100);
+        return round(netto * (doubleSkonto / 100));
     }
 
     private double calcFee() {
         double doubleFee = fee;
-        return netto * (doubleFee / 100);
+        return round(netto * (doubleFee / 100));
     }
 
     private double calcTax() {
         if (tax) {
-            return netto * 0.19;
+            return round(netto * 0.19);
         } else return 0;
     }
 
@@ -91,7 +91,7 @@ public class ClientToPrint {
         return round(netto-calcSkonto);
     }
 
-    private double calcsumInklFee(){
+    private double calcSumInklFee(){
         return round(sumInklSkonto + calcFee);
     }
 
