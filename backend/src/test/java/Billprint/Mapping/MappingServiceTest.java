@@ -96,7 +96,7 @@ class MappingServiceTest {
         ImportService importService = new ImportService(importRepo);
         MappingService mappingService = new MappingService(clientService, importService, clientToPrintRepo);
 
-        AdDTO adDTO = new AdDTO("Developer", "Professional", 30, "Refund", "25.10.2022", "Hamburg");
+        AdDTO adDTO = new AdDTO("Developer", "Professional", 30, "First Offer", "25.10.2022", "Hamburg");
         Ad ad = adDTO.toAd();
         Address address = new Address("OTTO GmBH & Co KG", "Werner-Otto-Straße 1-7", "Hamburg");
         Address address1 = new Address("OSSG", "Werner-Otto-Straße 1-7", "Hamburg");
@@ -124,7 +124,7 @@ class MappingServiceTest {
 
         assertEquals(2, actual.size());
         assertEquals(2.0, actual.get(0).getFee());
-        assertEquals(23, actual.get(1).getBrutto());
+        assertEquals(24.0, actual.get(1).getBrutto());
 
     }
 

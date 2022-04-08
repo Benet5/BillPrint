@@ -73,29 +73,28 @@ public class ClientToPrint {
 
     private double calcSkonto() {
         double doubleSkonto = skonto;
-        return round(Math.abs(netto * (doubleSkonto / 100)));
+        return Math.abs(netto * (doubleSkonto / 100));
     }
 
     private double calcFee() {
         double doubleFee = fee;
-        return round(Math.abs(netto * (doubleFee / 100)));
+        return Math.abs(netto * (doubleFee / 100));
     }
 
     private double calcTax() {
         if (tax) {
-            return round(Math.abs(netto * 0.19));
+            return Math.abs(netto * 0.19);
         } else return 0;
     }
 
     private double round(double d) {
-        return (Math.round(d*100))/100;
+        return (Math.round(d*100.0))/100.0;
     }
 
     private double calcSumInklSkonto(){
         if(netto<0.0){
             return round(netto+calcSkonto);
-        }
-        return round(netto-calcSkonto);
+        }return(netto-calcSkonto);
     }
 
     private double calcSumInklFee() {
