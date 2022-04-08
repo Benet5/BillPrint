@@ -15,7 +15,14 @@
             justify-content: center;
             font-size: 10px;
             margin-top: 10px;
+            page-break-inside: auto;
+            -fs-table-paginate: paginate;
+            border-spacing: 0;
         }
+        .table tr {
+                page-break-inside: avoid;
+            }
+
 
         .table, .table th, .table td {
             border: 1px solid black;
@@ -26,11 +33,17 @@
             padding-top: 50px;
         }
 
+        tr {
+            page-break-after: auto
+        }
+
         .tablehead {
             padding-left: 5px;
             padding-right: 5px;
             font-size: 12px;
             font-weight: bold;
+            display: table-header-group;
+            border: none;
         }
 
         .brutto {
@@ -42,12 +55,12 @@
         .header {
             border: none;
             width: 100%;
-
+            position: running(header);
         }
 
         .addressOtto {
             font-size: 8px;
-            vertical-align: top;
+            vertical-align: center;
             text-align: left;
             width: 40%;
         }
@@ -58,54 +71,87 @@
             text-align: right;
             background-color: transparent;
             border: none;
-            vertical-align: top;
+            vertical-align: center;
         }
 
         .imgContainer {
             background-color: transparent;
             text-align: right;
-            vertical-align: top;
+            vertical-align: center;
             width: 100%;
             height: 100px;
         }
 
-        .konto{
+        .konto {
             text-align: right;
             width: 100%;
             vertical-align: top;
             font-size: 8px;
         }
 
-        .klein{
-            font-size: 8px;
+        .klein {
+            font-size: 7px;
         }
 
-        .footer{
-            vertical-align: bottom;
-            position: absolute;
+        .footer {
+            position: running(footer);
+            display: block;
+        }
+
+        .footerText {
+            text-align: left;
+        }
+
+        .page {
+            text-align: right;
+        }
+
+        @page {
+            @bottom-left {
+                content: element(footer);
+            }
+            @bottom-right-corner{
+                content: element(page);
+            }
+
+            @top-center{
+                content: element(header);
+            }
+
+            margin-top: 15%;
+            margin-bottom: 10%;
+        }
+
+
+
+        #pagenumber:before {
+            content: counter(page);
 
         }
 
+        #pagecount:before {
+            content: counter(pages);
+        }
     </style>
 </head>
 <body>
 <table class="header">
-    <tr class="header">
-    <td class="addressOtto">Otto (GmbH &amp; Co KG), Werner-Otto-Straße 1-7, 22179 Hamburg</td>
-    <td class="imgContainer"> <img class="logo" th:src="@{classpath:static/data/Otto_Logo_rgb.png}" alt="OTTOLogo87"/></td>
-    </tr>
     <tr>
-        <td></td>
-        <td class="konto">
-           <div class="klein">Otto (GmbH &amp; Co KG), Werner-Otto-Straße 1-7, 22179 Hamburg</div>
-            <div class="klein">Bankverbindung: </div>
-                <div class="klein">BadBanks AG, Hamburg</div>
+        <td class="addressOtto">Otto (GmbH &amp; Co KG), Werner-Otto-Straße 1-7, 22179 Hamburg</td>
+        <td class="imgContainer"><img class="logo" th:src="@{classpath:static/data/Otto_Logo_rgb.png}"
+                                      alt="OTTOLogo87"/></td>
+    </tr>
+</table>
+    <div>
+        <div class="konto">
+            <div class="klein">Otto (GmbH &amp; Co KG), Werner-Otto-Straße 1-7, 22179 Hamburg</div>
+            <div class="klein">Bankverbindung:</div>
+            <div class="klein">BadBanks AG, Hamburg</div>
             <div class="klein">IBAN: Hier könnte ihre Adresse stehen</div>
             <div class="klein">BIC: HAVEFUN</div>
             <span class="klein">Hamburg, </span><span class="klein" th:text="${dateNow}"></span>
-        </td>
-    </tr>
-</table>
+        </div>
+    </div>
 
 
 
@@ -122,16 +168,29 @@
     <div>Ihnen unten stehende Kosten.</div>
 </div>
 
+<div class="footer">
+
+<span class="footerText klein">
+    Otto GmbH &amp; Co KG • Werner-Otto-Straße 1-7 • 22179 Hamburg • A member of the otto group • +49(0)40/6461-0 • Fax +49(0)40/6461-8571
+    www.otto.com • USt-IDNr. DE 118 475 690 • AG Hamburg, HR A 62 024, Persönlich haftend: Verwaltungsgesellschaft Otto mbH,
+    Hamburg, AG Hamburg, HR B 13 762 vertr. durch: Alexander Birken (Vorsitzender)
+    Dr. Marcus Ackermann (Stellvertretender Vorsitzender) • Sebastian Klauke • Petra Scharner-Wolff • Kay Schiebur
+    Bereichsvorstände OTTO: Marc Opelt (Vorsitzender) • Bodo Kipper • Dr. Michael Müller-Wünsch • Katy Roewer (jeweils Handlungsbevollmächtigte)
+    Aufsichtsrat: Dr. Michael Otto (Vorsitzender)
+</span>
+    <div class="page klein">Seite <span id="pagenumber" class="klein"></span> von <span id="pagecount" class="klein"></span></div>
+
+</div>
 
 <table class="table">
-    <tr>
-        <th class="tablehead">Nr.</th>
-        <th class="tablehead">Titel</th>
-        <th class="tablehead">Standort</th>
-        <th class="tablehead">Preis (netto)</th>
-        <th class="tablehead">Schaltung</th>
+    <thead class="tablehead">
+        <th>Nr.</th>
+        <th>Titel</th>
+        <th>Standort</th>
+        <th>Preis (netto)</th>
+        <th>Schaltung</th>
 
-    </tr>
+    </thead>
 
 
     <tr th:each="item, iterStat: ${allItemsFromClient}">
@@ -171,16 +230,7 @@
 </table>
 
 
-<div class="header, klein, footer">
-<div>
-    Otto GmbH &amp; Co KG • Werner-Otto-Straße 1-7 • 22179 Hamburg • A member of the otto group • +49(0)40/6461-0 • Fax +49(0)40/6461-8571
-    www.otto.com • USt-IDNr. DE 118 475 690 • AG Hamburg, HR A 62 024, Persönlich haftend: Verwaltungsgesellschaft Otto mbH,
-    Hamburg, AG Hamburg, HR B 13 762 vertr. durch: Alexander Birken (Vorsitzender)
-    Dr. Marcus Ackermann (Stellvertretender Vorsitzender) • Sebastian Klauke • Petra Scharner-Wolff • Kay Schiebur
-    Bereichsvorstände OTTO: Marc Opelt (Vorsitzender) • Bodo Kipper • Dr. Michael Müller-Wünsch • Katy Roewer (jeweils Handlungsbevollmächtigte)
-    Aufsichtsrat: Dr. Michael Otto (Vorsitzender)
-</div>
-</div>
+
 
 </body>
 </html>
