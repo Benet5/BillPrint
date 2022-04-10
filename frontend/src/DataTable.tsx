@@ -107,7 +107,7 @@ export default function DataTable() {
             </div>
         <div className="success"> {loadingMessage} </div>
     <div className="parent">
-        <h5></h5>
+        <h5> </h5>
         <h5>Name</h5>
         <h5>Title</h5>
         <h5>Anzeigentyp</h5>
