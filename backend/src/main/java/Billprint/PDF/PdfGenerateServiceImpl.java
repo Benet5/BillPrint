@@ -12,11 +12,9 @@ import org.thymeleaf.context.Context;
 import org.xhtmlrenderer.pdf.ITextRenderer;
 
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.*;
 
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
 @Service
 public class PdfGenerateServiceImpl implements PdfGenerateService{
@@ -26,18 +24,18 @@ public class PdfGenerateServiceImpl implements PdfGenerateService{
     private TemplateEngine templateEngine;
 
     //@Value("${pdf.directory}")
-    private final String pdfDirectory = System.getProperty("user.home") + File.separator;
+    //private final String pdfDirectory = System.getProperty("user.home") + File.separator;
 
 // alternative: try mit resources FileOutputStream fileOutputStream = new FileOutputStream(pdfDirectory + pdfFileName)
     @Override
-    public void generatePdfFile(String templateName, Map<String, Object> data, String pdfFileName)  {
+    public void generatePdfFile(String templateName, Map<String, Object> data, String pdfFileName, OutputStream out)  {
         Context context = new Context();
         context.setVariables(data);
-
-        String htmlContent = templateEngine.process(templateName, context);
         FileOutputStream fileOutputStream = null;
+        String htmlContent = templateEngine.process(templateName, context);
+
         try {
-            fileOutputStream = new FileOutputStream(pdfDirectory + pdfFileName);
+            fileOutputStream = new FileOutputStream(out + pdfFileName);
             ITextRenderer renderer = new ITextRenderer();
             renderer.setDocumentFromString(htmlContent);
             renderer.layout();
@@ -45,7 +43,7 @@ public class PdfGenerateServiceImpl implements PdfGenerateService{
             renderer.finishPDF();
         } catch (DocumentException | FileNotFoundException e) {
             logger.error(e.getMessage(), e);
-        }finally {
+        } finally {
             try{ if(fileOutputStream != null)
                 fileOutputStream.close();
             } catch (IOException d){
@@ -53,6 +51,7 @@ public class PdfGenerateServiceImpl implements PdfGenerateService{
             }
         }
     }
+    }
 
 
-}
+
