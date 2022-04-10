@@ -92,7 +92,7 @@ export default function DataTable() {
 
 
 
-
+    // <h5>Auftraggeber</h5>
     //Sortieren vor dem Map!
     return (
     <div>
@@ -107,30 +107,30 @@ export default function DataTable() {
             </div>
         <div className="success"> {loadingMessage} </div>
     <div className="parent">
-    <h5>Name</h5>
+        <h5></h5>
+        <h5>Name</h5>
         <h5>Title</h5>
         <h5>Anzeigentyp</h5>
         <h5>Laufzeit (in Tagen)</h5>
         <h5>Auftragsart</h5>
-        <h5>Ausschreibungsort</h5>
-        <h5>Auftraggeber</h5>
+        <h5>Ausschreibungs-Ort</h5>
         <h5>Anschrift</h5>
         <h5>Straße, Hausnummer</h5>
         <h5>PLZ, Ort</h5>
 
-    </div>
+    </div >
 
-
+<div className="tableBody">
 
     {allData.length>0 ?
-        allData.map((e: ImportedData, index) => <div key={e.name + index}>
+        allData.map((e: ImportedData, index) => <div  key={e.name + index}>
 
             <DataItem item={e} key={e.name + index} mapSelected={mapSelected}/></div>)
         :
 
             <div className="error">  {errorMessage}</div>
     }
-
+</div>
 
         </div>
     </div>
