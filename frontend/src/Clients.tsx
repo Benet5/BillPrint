@@ -115,7 +115,7 @@ export default function Clients() {
                     <div className="error">{errorMessage}</div>
                     <div className=""><ClientForm createClient={createClient} allClients={allClients}
                                                   clientToChange={clientToChange} changeClient={changeClient} /></div>
-                    <div className="table"><ClientTable getClientData={getClientData} allClients={allClients}
+                    <div className="clientBody"><ClientTable getClientData={getClientData} allClients={allClients}
                                                         setToForm={setToForm} /></div>
 
                 </div>

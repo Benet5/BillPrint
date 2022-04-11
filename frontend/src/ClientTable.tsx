@@ -17,7 +17,8 @@ export default function ClientTable(props: ClientTableProps){
 
         <div>
 
-                <div className="parentClientTable">
+                <div className="parentClientTable head">
+                    <h5> </h5>
                     <h5>Name</h5>
                     <h5>Straße & Hausnummer</h5>
                     <h5>PLZ & Ort</h5>

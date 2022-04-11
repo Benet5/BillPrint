@@ -87,21 +87,24 @@ public class MappingService {
 
         }
 /*
-Überlegen, ob die Datenbank nucht standardmäßig abgeräumt werden soll, nachd er Rechnungserstellung.
-    public ClientToPrint changeClientToPrint(ClientToPrint clientToPrint){
-        Optional<Client> toChange = clientRepo.findById(id);
-        toChange.get().setAddress(client.getAddress());
-        toChange.get().setFee(client.getFee());
-        toChange.get().setSkonto(client.getSkonto());
-        toChange.get().setTax(client.isTax());
-        clientRepo.save(toChange.get());
+
+    public ClientToPrint changeClientToPrint(Client client){
+        ClientToPrint toChange = clientToPrintRepo.findByAddressName(client.getAddress().getName()).get();
+        toChange.setAddress(client.getAddress());
+        toChange.setFee(client.getFee());
+        toChange.setSkonto(client.getSkonto());
+        toChange.setTax(client.isTax());
+        toChange.setAllItemsFromClient(importService.findAllByName(client.getAddress().getName()));
+        return clientToPrintRepo.save(toChange);
     }
-    #
+
  */
 
 
     public List<ClientToPrint> findAll(){
         return clientToPrintRepo.findAll();
     }
+
+
 
 }

@@ -22,13 +22,14 @@ export default function ClientItem(props: ClientItemProps){
 
 
         <div className="parentClientTable">
-            <p  className="firstColumn">{props.item.name}</p>
-            <p  className="secondColumn">{props.item.street}</p>
-            <p  className="thirdColumn">{props.item.location}</p>
-            <p  className="fourthColumn">{tax}</p>
-            <p className="fiveColumn">{props.item.fee}</p>
-            <p  className="sixColumn">{props.item.skonto}</p>
-            <div className="sevenColumn"><button onClick={edit}  className="buttonFrame">Auswählen</button> </div>
+            <div className="firstColumn"><button onClick={edit}  className="buttonFrame">Auswählen</button> </div>
+            <p  className="secondColumn">{props.item.name}</p>
+            <p  className="thirdColumn">{props.item.street}</p>
+            <p  className="fourthColumn">{props.item.location}</p>
+            <p  className="fiveColumn">{tax}</p>
+            <p className="sixColumn">{props.item.fee}</p>
+            <p  className="sevenColumn">{props.item.skonto}</p>
+
         </div>
 
     </div>
