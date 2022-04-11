@@ -57,7 +57,7 @@ public class ClientToPrint {
 
 
     private double calcNetto() {
-        double sum = 0;
+        double sum = 0.0;
         for (Item item : allItemsFromClient) {
             if (item.getAd().getType().equals("Professional") && !item.getAd().getListingAction().equals("Refund")) {
                  sum += 10.0;
@@ -73,12 +73,12 @@ public class ClientToPrint {
 
     private double calcSkonto() {
         double doubleSkonto = skonto;
-        return Math.abs(netto * (doubleSkonto / 100));
+        return Math.abs(round(netto * (doubleSkonto / 100.0)));
     }
 
     private double calcFee() {
         double doubleFee = fee;
-        return Math.abs(netto * (doubleFee / 100));
+        return round(Math.abs(netto * (doubleFee / 100.0)));
     }
 
     private double calcTax() {
@@ -94,7 +94,7 @@ public class ClientToPrint {
     private double calcSumInklSkonto(){
         if(netto<0.0){
             return round(netto+calcSkonto);
-        }return(netto-calcSkonto);
+        }return round(netto-calcSkonto);
     }
 
     private double calcSumInklFee() {

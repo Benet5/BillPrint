@@ -11,11 +11,16 @@ import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 import org.xhtmlrenderer.pdf.ITextRenderer;
 
-import javax.servlet.http.HttpServletResponse;
 import java.io.*;
-
-import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import javax.servlet.http.HttpServletResponse;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Map;
+
 @Service
 public class PdfGenerateServiceImpl implements PdfGenerateService{
     private Logger logger = LoggerFactory.getLogger(PdfGenerateServiceImpl.class);
@@ -24,33 +29,46 @@ public class PdfGenerateServiceImpl implements PdfGenerateService{
     private TemplateEngine templateEngine;
 
     //@Value("${pdf.directory}")
-    //private final String pdfDirectory = System.getProperty("user.home") + File.separator;
 
-// alternative: try mit resources FileOutputStream fileOutputStream = new FileOutputStream(pdfDirectory + pdfFileName)
+    //private final String pdfDirectory = FileOutputStream + File.separator;
+
     @Override
     public void generatePdfFile(String templateName, Map<String, Object> data, String pdfFileName, OutputStream out)  {
+       createFile(templateName, data, pdfFileName);
+       zippen(pdfFileName, out);
+    }
+
+    public void createFile(String templateName, Map<String, Object> data, String pdfFileName){
         Context context = new Context();
         context.setVariables(data);
-        FileOutputStream fileOutputStream = null;
         String htmlContent = templateEngine.process(templateName, context);
-
-        try {
-            fileOutputStream = new FileOutputStream(out + pdfFileName);
+        try(FileOutputStream fileOutputStream = new FileOutputStream(pdfFileName)) {
             ITextRenderer renderer = new ITextRenderer();
             renderer.setDocumentFromString(htmlContent);
             renderer.layout();
             renderer.createPDF(fileOutputStream, false);
             renderer.finishPDF();
-        } catch (DocumentException | FileNotFoundException e) {
-            logger.error(e.getMessage(), e);
-        } finally {
-            try{ if(fileOutputStream != null)
-                fileOutputStream.close();
-            } catch (IOException d){
-                logger.error(d.getMessage());
-            }
+        } catch (IOException | DocumentException e) {
+            e.printStackTrace();
         }
     }
+
+    public void zippen(String pdfFileName, OutputStream out){
+        try( FileInputStream fileInputStream = new FileInputStream(pdfFileName)) {
+            out.write(fileInputStream.readAllBytes());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            Files.deleteIfExists(Path.of(pdfFileName));
+        } catch (IOException e) {
+            e.printStackTrace();
+
+        }
+    }
+
+
+
     }
 
 
