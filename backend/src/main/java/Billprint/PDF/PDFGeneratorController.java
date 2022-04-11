@@ -19,6 +19,9 @@ import java.util.List;
 @RequestMapping("/generate")
 public class PDFGeneratorController {
 
+/*
+
+
 private final PdfGeneratorRunner pdfGeneratorRunner;
 private final MappingService mappingService;
     private static final Logger LOGGER = LoggerFactory.getLogger(PDFGeneratorController.class);
@@ -39,6 +42,7 @@ private final MappingService mappingService;
 
 
 
+*/
 
 }
 

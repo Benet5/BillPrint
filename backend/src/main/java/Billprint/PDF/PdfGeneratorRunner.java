@@ -13,6 +13,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import java.io.FileOutputStream;
+
+import java.io.OutputStream;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
@@ -29,7 +32,8 @@ public class PdfGeneratorRunner {
     private PdfGenerateService pdfGenerateService;
 
 
-    public void run(ClientToPrint clientToPrint) throws Exception {
+
+    public void run(ClientToPrint clientToPrint, OutputStream out) throws Exception {
         Map<String, Object> data = new HashMap<>();
         data.put("clientToPrint", (clientToPrint));
         List<Item> allItemsFromClient = clientToPrint.getAllItemsFromClient();
@@ -58,7 +62,9 @@ public class PdfGeneratorRunner {
         data.put("brutto", brutto);
         data.put("allItemsFromClient", allItemsFromClient);
 
-        pdfGenerateService.generatePdfFile("generate", data, clientToPrint.getAddress().getName()+".pdf");
+
+        pdfGenerateService.generatePdfFile("generate", data, clientToPrint.getAddress().getName()+".pdf", out);
+
     }
 }
 
