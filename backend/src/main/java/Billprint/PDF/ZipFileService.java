@@ -20,6 +20,7 @@ public class ZipFileService {
         try {
             pdfGeneratorRunner.run(client, out);
 
+
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
         }
