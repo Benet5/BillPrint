@@ -19,7 +19,7 @@ public class ZipFileService {
     public void addFile(OutputStream out, ClientToPrint client) throws IOException {
         try {
             pdfGeneratorRunner.run(client, out);
-           // out.write("Hallo, das ist der Inhaltder Datei.".getBytes(StandardCharsets.UTF_8));
+
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
         }

@@ -31,24 +31,18 @@ public class PdfGenerateServiceImpl implements PdfGenerateService{
     public void generatePdfFile(String templateName, Map<String, Object> data, String pdfFileName, OutputStream out)  {
         Context context = new Context();
         context.setVariables(data);
-        FileOutputStream fileOutputStream = null;
+
         String htmlContent = templateEngine.process(templateName, context);
 
         try {
-            fileOutputStream = new FileOutputStream(out + pdfFileName);
             ITextRenderer renderer = new ITextRenderer();
             renderer.setDocumentFromString(htmlContent);
             renderer.layout();
-            renderer.createPDF(fileOutputStream, false);
-            renderer.finishPDF();
-        } catch (DocumentException | FileNotFoundException e) {
+            renderer.createPDF(out, false);
+           renderer.finishPDF();
+
+        } catch (DocumentException e) {
             logger.error(e.getMessage(), e);
-        } finally {
-            try{ if(fileOutputStream != null)
-                fileOutputStream.close();
-            } catch (IOException d){
-                logger.error(d.getMessage());
-            }
         }
     }
     }

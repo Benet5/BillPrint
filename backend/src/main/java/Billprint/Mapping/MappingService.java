@@ -77,12 +77,27 @@ public class MappingService {
         List<Client> allClients = clientService.findAll();
         List<ClientToPrint> allConverted = new ArrayList<>();
         for(Client client :allClients) {
-            ClientToPrint clientToPrint = new ClientToPrint (client, this.importService);
-            ClientToPrint actual = clientToPrintRepo.save(clientToPrint);
-            allConverted.add(actual);
-        } return allConverted;
+            if(clientToPrintRepo.findByAddressName(client.getAddress().getName()).isEmpty()) {
+                ClientToPrint clientToPrint = new ClientToPrint(client, this.importService);
+                ClientToPrint actual = clientToPrintRepo.save(clientToPrint);
+                allConverted.add(actual);
+            }
 
+            }return allConverted;
+
+        }
+/*
+Überlegen, ob die Datenbank nucht standardmäßig abgeräumt werden soll, nachd er Rechnungserstellung.
+    public ClientToPrint changeClientToPrint(ClientToPrint clientToPrint){
+        Optional<Client> toChange = clientRepo.findById(id);
+        toChange.get().setAddress(client.getAddress());
+        toChange.get().setFee(client.getFee());
+        toChange.get().setSkonto(client.getSkonto());
+        toChange.get().setTax(client.isTax());
+        clientRepo.save(toChange.get());
     }
+    #
+ */
 
     public List<ClientToPrint> findAll(){
         return clientToPrintRepo.findAll();
