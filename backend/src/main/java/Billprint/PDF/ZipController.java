@@ -32,7 +32,7 @@ public class ZipController {
     @GetMapping
     public void download(HttpServletResponse response) {
         response.setContentType("application/octet-stream");
-        response.setHeader("Content-Disposition", "attachment;filename=download.zip");
+        response.setHeader("Content-Disposition", "attachment;filename=Invoices.zip");
         response.setStatus(HttpServletResponse.SC_OK);
 
         List<ClientToPrint> allClientToPrint = mappingService.findAll();
