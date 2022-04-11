@@ -5,18 +5,22 @@ import com.lowagie.text.DocumentException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 import org.xhtmlrenderer.pdf.ITextRenderer;
 
-
 import java.io.*;
-
-
 import java.nio.file.Files;
 import java.nio.file.Path;
+import javax.servlet.http.HttpServletResponse;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Map;
+
 @Service
 public class PdfGenerateServiceImpl implements PdfGenerateService{
     private Logger logger = LoggerFactory.getLogger(PdfGenerateServiceImpl.class);
@@ -25,6 +29,7 @@ public class PdfGenerateServiceImpl implements PdfGenerateService{
     private TemplateEngine templateEngine;
 
     //@Value("${pdf.directory}")
+
     //private final String pdfDirectory = FileOutputStream + File.separator;
 
     @Override
@@ -58,12 +63,13 @@ public class PdfGenerateServiceImpl implements PdfGenerateService{
             Files.deleteIfExists(Path.of(pdfFileName));
         } catch (IOException e) {
             e.printStackTrace();
+
         }
     }
 
 
-    }
 
+    }
 
 
 
