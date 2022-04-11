@@ -73,17 +73,25 @@ export default function DataTable() {
     }
 
     const downloadPDF = () => {
-        axios.put(`${process.env.REACT_APP_BASE_URL}/generate`, {
+        axios.get(`${process.env.REACT_APP_BASE_URL}/api/zip`, {
             headers: {
                 'Content-Type': 'application/json'
-            }
+            }, responseType: 'blob',
         }).then(response => {
-            if (response.status === 200) {
-                setLoadingMessage("PDFs wurden generiert.")
-            }
-        }).catch(() => {
-                setErrorMessage("Daten konnten nicht erstellt werden!");
-            })
+            if(response.status === 200) {
+                const url = window.URL.createObjectURL(new Blob ([response.data]));
+                const a = document.createElement("a");
+                a.style.display = "none";
+                a.href = url;
+                a.setAttribute('download', "Invoices.zip")
+                document.body.appendChild(a);
+                a.click();
+                window.URL.revokeObjectURL(url);
+                alert("Die Rechnungen wurden heruntergeladen, prüfe deinen Download-Ordner!");
+            } else{
+                setErrorMessage("Daten konnten nicht erstellt werden!")
+        }})
+
     }
 
 
