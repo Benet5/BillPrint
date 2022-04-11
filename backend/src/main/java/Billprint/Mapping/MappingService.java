@@ -99,9 +99,6 @@ public class MappingService {
     #
  */
 
-    public List<ClientToPrint> findAll(){
-        return clientToPrintRepo.findAll();
-    }
 
     public List<ClientToPrint> findAll(){
         return clientToPrintRepo.findAll();
