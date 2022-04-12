@@ -10,7 +10,7 @@ import java.util.Optional;
 public class AppUserService {
     private final AppUserRepo appUserRepo;
 
-    public AppUser createUser(LoginData loginData) throws RuntimeException{
+    public AppUser createUser(RegisterData loginData) throws RuntimeException{
         if(appUserRepo.findByEmail(loginData.getEmail()).isEmpty()) {
             AppUser user = new AppUser();
             user.setPassword(loginData.getPassword());
