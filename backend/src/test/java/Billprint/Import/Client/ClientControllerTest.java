@@ -25,13 +25,13 @@ class ClientControllerTest {
     @Test
 
     void ShouldPostAndGetClients(){
-        Address address1 = new Address("Würstchenbude", "Heimathafen 1", "225005 Helgoland");
+        Address address1 = new Address("Würstchenbude4", "Heimathafen 1", "225005 Helgoland");
         List<Link> links = List.of(Link.of("/api/clients", "self"));
         Client client = new Client("12345",address1, true, 3, 2);
         ClientDTO client1 =ClientDTO.of(client);
 
 
-        ClientDTO client2 = new ClientDTO("Würstchenbude2", "Heimathafen 1", "225005 Helgoland", true, 5, 3, links);
+        ClientDTO client2 = new ClientDTO("Würstchenbude6", "Heimathafen 1", "225005 Helgoland", true, 5, 3, links);
         ClientDTO client3 = new ClientDTO("Würstchenbude3", "Heimathafen 1", "225005 Helgoland", true, 5, 3, links);
 
         ResponseEntity<ClientDTO> postResponse1 = restTemplate.exchange("/api/clients", HttpMethod.POST, new HttpEntity<>(client1), ClientDTO.class);
@@ -44,13 +44,13 @@ class ClientControllerTest {
         assertEquals(putResponse.getStatusCode(), HttpStatus.OK);
 
 
-        ResponseEntity<ClientDTO> postResponse2 = restTemplate.exchange("/api/clients", HttpMethod.POST, new HttpEntity<>(client2), ClientDTO.class);
-        assertEquals(postResponse2.getStatusCode(), HttpStatus.CREATED);
+        ResponseEntity<ClientDTO> postResponse10 = restTemplate.exchange("/api/clients", HttpMethod.POST, new HttpEntity<>(client2), ClientDTO.class);
+        assertEquals(postResponse10.getStatusCode(), HttpStatus.CREATED);
 
 
         ResponseEntity<ClientDTO[]> getResponse = restTemplate.exchange("/api/clients", HttpMethod.GET, new HttpEntity<>(""), ClientDTO[].class);
         assertEquals(getResponse.getStatusCode(), HttpStatus.OK);
-        assertTrue(getResponse.getBody().length == 2);
+        assertEquals(getResponse.getBody().length, 5);
 
 
         ResponseEntity<Void> DeleteResponse = restTemplate.exchange(client1ID, HttpMethod.DELETE, new HttpEntity<>(""), Void.class);
@@ -58,7 +58,7 @@ class ClientControllerTest {
 
         ResponseEntity<ClientDTO[]> getResponse2 = restTemplate.exchange("/api/clients", HttpMethod.GET, new HttpEntity<>(""), ClientDTO[].class);
         assertEquals(getResponse2.getStatusCode(), HttpStatus.OK);
-        assertTrue(getResponse2.getBody().length == 1);
+        assertTrue(getResponse2.getBody().length == 4);
 
 
     }
