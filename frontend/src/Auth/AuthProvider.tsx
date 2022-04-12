@@ -1,7 +1,7 @@
 import {ReactNode, useContext, useState} from "react";
 import AuthContext from "./AuthContext";
 import axios from "axios";
-import {ClientStructure} from "../model";
+
 
 export const useAuth = () => useContext(AuthContext);
 export default function AuthProvider({children}:{children : ReactNode}) {
