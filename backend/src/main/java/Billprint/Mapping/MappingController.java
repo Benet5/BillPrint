@@ -22,12 +22,14 @@ public class MappingController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Void> mappingSelected(@PathVariable String id) {
+    public ResponseEntity<String> mappingSelected(@PathVariable String id) {
         String result = mappingService.mappingSelected(id);
         if (result.equals("Das Item gibt es nicht.")) {
             return ResponseEntity.badRequest().build();
         } else {
-            return ResponseEntity.status(200).build();
+            return ResponseEntity
+                    .status(200)
+                    .body(result);
         }
     }
 

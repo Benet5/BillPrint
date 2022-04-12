@@ -1,8 +1,8 @@
 
-import {ClientStructure, Link} from "./model";
+import {ClientStructure, Link} from "../model";
 
 import ClientItem from "./ClientItem";
-import "./DataTable.css";
+import "../ImportedData/DataTable.css";
 
 interface ClientTableProps{
     getClientData : () => void;

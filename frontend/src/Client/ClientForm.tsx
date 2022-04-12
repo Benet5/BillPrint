@@ -1,4 +1,4 @@
-import {ClientStructure, Link} from "./model";
+import {ClientStructure, Link} from "../model";
 import {useEffect, useState} from "react";
 
 interface ClientFormProps {

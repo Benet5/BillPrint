@@ -128,5 +128,48 @@ class MappingServiceTest {
 
     }
 
+    @Test
+
+    void ShouldReturnAChangedItem(){
+        CSVRepo importRepo = mock(CSVRepo.class);
+        ClientRepo clientRepo = mock(ClientRepo.class);
+        ClientToPrintRepo clientToPrintRepo = mock(ClientToPrintRepo.class);
+        ClientService clientService = new ClientService(clientRepo);
+        ImportService importService = new ImportService(importRepo);
+        MappingService mappingService = new MappingService(clientService, importService, clientToPrintRepo);
+
+        AdDTO adDTO = new AdDTO("Developer", "Professional", 30, "First Offer", "25.10.2022", "Hamburg");
+        Ad ad = adDTO.toAd();
+        Address address = new Address("OTTO GmBH & Co KG", "Werner-Otto-Straße 1-7", "Hamburg");
+        Item newItem1 = new Item("12344","OTTO", "bla", ad, "OTTO GmBH & Co KG", address);
+        Item newItem2 = new Item("12345", "OTTO", "bla", ad, "OTTO GmBH & Co KG", address);
+        List <Item> items1 = List.of(newItem1, newItem2);
+
+
+        Client clientDB = new Client ("12345", address, true, 2, 1);
+        Client clientToUpdate = new Client ("12345", address, true, 3, 0);
+        Client updatedClient = new Client ("12345", address, true, 3, 0);
+        when(clientRepo.findAll()).thenReturn(List.of(clientToUpdate));
+        when(importRepo.findAllByName("OTTO GmBH & Co KG")).thenReturn(items1);
+
+        ClientToPrint clientToPrintDB = new ClientToPrint(clientDB, importService);
+        ClientToPrint clientToPrintUpdate = new ClientToPrint(clientToUpdate, importService);
+        ClientToPrint updatedClientToPrint = new ClientToPrint(updatedClient, importService);
+
+
+        when(clientToPrintRepo.findByAddressName("OTTO GmBH & Co KG")).thenReturn(Optional.of(clientToPrintDB));
+        when(clientToPrintRepo.save(clientToPrintUpdate)).thenReturn(updatedClientToPrint);
+
+        List <ClientToPrint> actual = mappingService.convertClient();
+
+        assertEquals(1, actual.size());
+        assertEquals(actual.get(0).getCalcFee(), 0.6);
+        assertEquals(actual.get(0).getCalcSkonto(), 0.0);
+        assertEquals(actual.get(0).getSumInklSkonto(), 20.0);
+        assertEquals(actual.get(0).getSumInklFee(), 20.6);
+        assertEquals(actual.get(0).getBrutto(), 24.4);
+
+    }
+
 
 }

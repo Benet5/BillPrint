@@ -3,9 +3,9 @@ import ReactDOM from 'react-dom';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import {BrowserRouter, Route, Routes} from "react-router-dom";
-import CSVImport from "./CSVImport";
-import DataTable from "./DataTable";
-import Clients from "./Clients";
+import CSVImport from "./ImportedData/CSVImport";
+import DataTable from "./ImportedData/DataTable";
+import Clients from "./Client/Clients";
 
 ReactDOM.render(
     <React.StrictMode>

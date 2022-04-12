@@ -43,7 +43,7 @@ class ImportServiceTest {
         when(csvRepo.findAll()).thenReturn(List.of(newItem2, newItem1));
         List<ItemDTO> actual = importService.getImportedData();
 
-        Assertions.assertTrue(actual.size() == 2);
+        Assertions.assertEquals(2, actual.size());
         Assertions.assertEquals(actual.get(0).getCustomer(), "OSSG");
     }
 

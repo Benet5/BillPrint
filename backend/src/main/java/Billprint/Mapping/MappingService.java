@@ -1,9 +1,7 @@
 package Billprint.Mapping;
 
-import Billprint.Import.CSVRepo;
 import Billprint.Import.Client.Client;
-import Billprint.Import.Client.ClientDTO;
-import Billprint.Import.Client.ClientRepo;
+
 import Billprint.Import.Client.ClientService;
 import Billprint.Import.ImportService;
 import Billprint.Import.Item.Address;
@@ -77,28 +75,38 @@ public class MappingService {
         List<Client> allClients = clientService.findAll();
         List<ClientToPrint> allConverted = new ArrayList<>();
         for(Client client :allClients) {
-            if(clientToPrintRepo.findByAddressName(client.getAddress().getName()).isEmpty()) {
+            Optional<ClientToPrint> toChange = clientToPrintRepo.findByAddressName(client.getAddress().getName());
+            if(toChange.isEmpty()) {
                 ClientToPrint clientToPrint = new ClientToPrint(client, this.importService);
                 ClientToPrint actual = clientToPrintRepo.save(clientToPrint);
                 allConverted.add(actual);
+            } else{
+                allConverted.add(changeClientToPrint(client, toChange.get()));
             }
 
             }return allConverted;
 
         }
-/*
 
-    public ClientToPrint changeClientToPrint(Client client){
-        ClientToPrint toChange = clientToPrintRepo.findByAddressName(client.getAddress().getName()).get();
+
+    public ClientToPrint changeClientToPrint(Client client, ClientToPrint toChange){
         toChange.setAddress(client.getAddress());
         toChange.setFee(client.getFee());
         toChange.setSkonto(client.getSkonto());
         toChange.setTax(client.isTax());
         toChange.setAllItemsFromClient(importService.findAllByName(client.getAddress().getName()));
+        toChange.setNetto(toChange.calcNetto());
+        toChange.setCalcSkonto(toChange.calcSkonto());
+        toChange.setCalcFee(toChange.calcFee());
+        toChange.setCalcTax(toChange.calcTax());
+        toChange.setSumInklSkonto(toChange.calcSumInklSkonto());
+        toChange.setSumInklFee(toChange.calcSumInklFee());
+        toChange.setBrutto(toChange.calcbrutto());
+
         return clientToPrintRepo.save(toChange);
     }
 
- */
+
 
 
     public List<ClientToPrint> findAll(){

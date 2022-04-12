@@ -1,9 +1,9 @@
 import axios from "axios";
-import {Ad, Address, ImportedData, Link} from "./model";
+import {Ad, Address, ImportedData, Link} from "../model";
 import {useEffect, useState} from "react";
 import "./DataTable.css";
 import DataItem from "./DataItem";
-import Navbar from "./Navbar";
+import Navbar from "../Navbar";
 
 export default function DataTable() {
     const [allData, setAllData] = useState([] as Array<ImportedData>)
