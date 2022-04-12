@@ -1,5 +1,5 @@
-import {ClientStructure, Link} from "./model";
-import "./DataTable.css";
+import {ClientStructure, Link} from "../model";
+import "../ImportedData/DataTable.css";
 
 
 interface ClientItemProps{

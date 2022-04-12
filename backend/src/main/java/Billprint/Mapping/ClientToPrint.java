@@ -56,7 +56,7 @@ public class ClientToPrint {
     }
 
 
-    private double calcNetto() {
+    double calcNetto() {
         double sum = 0.0;
         for (Item item : allItemsFromClient) {
             if (item.getAd().getType().equals("Professional") && !item.getAd().getListingAction().equals("Refund")) {
@@ -71,17 +71,17 @@ public class ClientToPrint {
         } return sum;
     }
 
-    private double calcSkonto() {
+    double calcSkonto() {
         double doubleSkonto = skonto;
         return Math.abs(round(netto * (doubleSkonto / 100.0)));
     }
 
-    private double calcFee() {
+    double calcFee() {
         double doubleFee = fee;
         return round(Math.abs(netto * (doubleFee / 100.0)));
     }
 
-    private double calcTax() {
+    double calcTax() {
         if (tax) {
             return Math.abs(netto * 0.19);
         } else return 0;
@@ -91,19 +91,19 @@ public class ClientToPrint {
         return (Math.round(d*100.0))/100.0;
     }
 
-    private double calcSumInklSkonto(){
+    double calcSumInklSkonto(){
         if(netto<0.0){
             return round(netto+calcSkonto);
         }return round(netto-calcSkonto);
     }
 
-    private double calcSumInklFee() {
+    double calcSumInklFee() {
         if (sumInklSkonto < 0.0) {
             return round(sumInklSkonto - calcFee);
         }return round(sumInklSkonto + calcFee);
     }
 
-    private double calcbrutto() {
+    double calcbrutto() {
         if (sumInklFee < 0.0) {
             return round(sumInklFee - calcTax);
         }return round(sumInklFee + calcTax);
@@ -114,5 +114,6 @@ public class ClientToPrint {
             return "Bitte überweisen sie den ausstehenden Betrag zeitnah.";
         } return "Der überzählige Betrag wird Ihnen zeitnah erstattet.";
     }
+
 
 }

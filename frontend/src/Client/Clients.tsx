@@ -1,9 +1,9 @@
-import Navbar from "./Navbar";
+import Navbar from "../Navbar";
 import {useEffect, useState} from "react";
 import "./Client.css"
 import axios from "axios";
 import ClientTable from "./ClientTable";
-import {ClientStructure, Link} from "./model";
+import {ClientStructure, Link} from "../model";
 import ClientForm from "./ClientForm";
 
 

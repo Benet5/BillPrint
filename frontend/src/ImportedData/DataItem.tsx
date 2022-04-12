@@ -1,4 +1,4 @@
-import {Ad, Address, ImportedData, Link} from "./model";
+import {Ad, Address, ImportedData, Link} from "../model";
 interface DataItemProps{
     item : ImportedData
     mapSelected : (name : string, ad : Ad, customer : string, listingID : string, address : Address, links : Array<Link>) => void;
