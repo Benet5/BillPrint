@@ -3,6 +3,7 @@ package Billprint.Auth.User;
 import Billprint.Auth.JWT.JWTService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -26,14 +27,14 @@ public class LoginController {
     private final JWTService jwtService;
 
     @PostMapping
-    public String login(@RequestBody LoginData loginData) {
+    public ResponseEntity<String> login(@RequestBody LoginData loginData) {
         try {
             Authentication auth = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginData.getEmail(), loginData.getPassword()));
             Map<String, Object> claims = new HashMap<>();
             claims.put("roles", getRoles(auth));
-            return jwtService.createToken(claims, loginData.getEmail());
+            return ResponseEntity.status(200).body(jwtService.createToken(claims, loginData.getEmail()));
         } catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "invalid credentials");
+            return ResponseEntity.status(400).build();
         }
     }
 

@@ -4,16 +4,12 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+
 @Data
 @RequiredArgsConstructor
-@Document(collection= "user")
-public class AppUser {
-
+@Document(collection= "whitelist")
+public class Whitelist {
     @Id
     private String id;
     private String email;
-    private String password;
-    private UserRole USER;
-
-
 }

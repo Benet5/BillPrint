@@ -5,11 +5,10 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Data
-public class LoginData {
+public class RegisterData {
 
     private String email;
     private String password;
-
-
+    private String passwordValidate;
 
 }

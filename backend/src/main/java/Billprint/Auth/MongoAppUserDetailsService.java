@@ -19,7 +19,7 @@ public class MongoAppUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         return appUserService.findByEmail(email)
-                .map(gotUser -> new User(gotUser.getEmail(),gotUser.getPassword(), List.of( new SimpleGrantedAuthority("ROLE_" +gotUser.getRole()))))
+                .map(gotUser -> new User(gotUser.getEmail(),gotUser.getPassword(), List.of( new SimpleGrantedAuthority("ROLE_" +gotUser.getUSER()))))
                 .orElseThrow (() -> new UsernameNotFoundException("Dieser User existiert nicht" ));
     }
 
