@@ -6,19 +6,24 @@ import {BrowserRouter, Route, Routes} from "react-router-dom";
 import CSVImport from "./ImportedData/CSVImport";
 import DataTable from "./ImportedData/DataTable";
 import Clients from "./Client/Clients";
+import Landingpage from "./Auth/Landingpage";
+import AuthProvider from "./Auth/AuthProvider";
 
 ReactDOM.render(
     <React.StrictMode>
     <Suspense fallback ="Loading...">
        <BrowserRouter>
+           <AuthProvider>
             <Routes>
                 <Route path ="/" element ={<App/>}>
                     <Route path ="/api/import" element ={<CSVImport/>}/>
                     <Route path ="/table" element ={<DataTable/>}/>
                     <Route path= "/clients" element ={<Clients/>}/>
-                    <Route path="/*" element={<CSVImport/>}/>
+                    <Route path="/start" element={<Landingpage/>}/>
+                    <Route path="/*" element={<Landingpage/>}/>
                 </Route>
             </Routes>
+           </AuthProvider>
        </BrowserRouter>
     </Suspense>
     </React.StrictMode>,

@@ -65,7 +65,8 @@ p{
 
 .error{
     color:red;
-text-align: center;
+    text-align: center;
+    margin: 10px;
 }
 
 .success{
