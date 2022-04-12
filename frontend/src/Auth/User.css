@@ -1,0 +1,15 @@
+.landingpage{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-column-gap: 4px;
+    grid-row-gap: 2px;
+    justify-items: center;
+}
+
+.login{
+    grid-area: 1/1/1/1;
+}
+
+.register{
+    grid-area: 1/2/1/2;
+}
