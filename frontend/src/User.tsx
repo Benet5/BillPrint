@@ -1,7 +1,7 @@
 import Navbar from "./Navbar";
 import {useNavigate} from "react-router-dom";
 import {useAuth} from "./Auth/AuthProvider";
-import {useEffect, useState} from "react";
+import {useCallback, useEffect, useState} from "react";
 import axios from "axios";
 
 export default function User(){
@@ -14,12 +14,7 @@ export default function User(){
     const[allData, setAllData] = useState([]as Array <string>);
 
 
-    useEffect(() => {
-            if (token.length < 2) {
-                navigate("/auth/login")
-            }
-        }, [token, navigate]
-    )
+
 
     const addUser=() => {
             const emailExp = email.replace(/(\r\n|\n|\r)/gm, "")
@@ -45,7 +40,7 @@ export default function User(){
         }
 
 
-        const getUser =() =>{
+        const getUser =useCallback(() =>{
             axios.get(`${process.env.REACT_APP_BASE_URL}/whitelist`, {
                 headers: {
                     'Content-Type': 'application/json',
@@ -67,9 +62,14 @@ export default function User(){
                         setErrorMessage("Unbekannter Fehler");
                     }
                 })
-        }
+        },[token])
 
-
+    useEffect(() => {
+            if (token.length < 2) {
+                navigate("/auth/login")
+            } getUser()
+        }, [token, navigate, getUser]
+    )
 
 
     return(

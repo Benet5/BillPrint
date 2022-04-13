@@ -1,5 +1,5 @@
 import Navbar from "../Navbar";
-import {useEffect, useState} from "react";
+import {useCallback, useEffect, useState} from "react";
 import "./Client.css"
 import axios from "axios";
 import ClientTable from "./ClientTable";
@@ -22,7 +22,7 @@ export default function Clients() {
 
 
 
-    const getClientData = () => {
+    const getClientData = useCallback(() => {
         axios.get(`${process.env.REACT_APP_BASE_URL}/api/clients`, {
             headers: {
                 'Content-Type': 'application/json',
@@ -37,7 +37,7 @@ export default function Clients() {
         }).catch(() =>
             setErrorMessage("Daten konnten nicht geladen werden!")
         )
-    }
+    },[token])
 
     const createClient = (clientName: string, street: string, location: string, tax: boolean, fee: number, skonto: number) => {
         const streetExport = street.replace(/(\r\n|\n|\r)/gm, "")
@@ -118,7 +118,7 @@ export default function Clients() {
          else{
             getClientData()
             setErrorMessage('')
-        }}, [token, navigate])
+        }}, [token, navigate, getClientData])
 
 
         useEffect(() =>{

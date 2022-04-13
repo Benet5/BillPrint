@@ -4,7 +4,6 @@ import Navbar from "../Navbar";
 import "./DataTable.css";
 import {useNavigate} from "react-router-dom";
 import {useAuth} from "../Auth/AuthProvider";
-import img from "../Data/Otto_Logo_rgb.png";
 import img1 from "../Data/BeispielUpload.png";
 
 export default function CSVImport() {
@@ -58,7 +57,7 @@ export default function CSVImport() {
                             <li>Die Kopfzeile muss folgende Struktur aufweisen und darf nicht größer sein:
                                <div style={{fontStyle: "italic"}}>name,listingID,title,type,runtime,listingAction,jobLocation,date,customer,addressName,addressStreet,addressLocation</div></li>
                              <li>Eine Beispiel-Datei kann hier eingesehen werden:
-                                 <div className="imgContainer"><img className="" src={img1} alt="UploadBeispiel" /></div></li>
+                                 <div className="imgContainer"><img src={img1} alt="UploadBeispiel" /></div></li>
                             <li>Leere Einträge sind durch ", ," zu kennzeichnen. </li>
                             <li>Die Datei muss nach UTF-8 kodiert sein.</li>
 
