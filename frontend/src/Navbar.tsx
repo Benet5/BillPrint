@@ -12,7 +12,8 @@ export default function Navbar(){
             <Link to="/api/import" className="link">CSV importieren</Link>
             <Link to="/table" className="link">Datenübersicht</Link>
             <Link to ="/clients" className="link">Mandantenverwaltung</Link>
-            <span><button className="link" onClick={logout}>Logout</button></span>
+            <Link to="/user" className="link">Nutzer*in freischalten</Link>
+            <span style={{background:"transparent"}}><button className="link" onClick={logout}>Logout</button></span>
 
         </div>
 

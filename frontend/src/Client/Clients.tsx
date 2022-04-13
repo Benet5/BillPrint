@@ -5,6 +5,8 @@ import axios from "axios";
 import ClientTable from "./ClientTable";
 import {ClientStructure, Link} from "../model";
 import ClientForm from "./ClientForm";
+import {useAuth} from "../Auth/AuthProvider";
+import {useNavigate} from "react-router-dom";
 
 
 
@@ -13,11 +15,18 @@ export default function Clients() {
     const [errorMessage, setErrorMessage] = useState('')
     const [allClients, setAllClients] = useState([] as Array<ClientStructure>)
     const [clientToChange, setClientToChange] = useState( {name: "", street: "", location: "", tax: false, fee: 0, skonto: 0, links: []} as ClientStructure);
+    const {token} = useAuth()
+    const navigate = useNavigate();
+
+
+
+
 
     const getClientData = () => {
         axios.get(`${process.env.REACT_APP_BASE_URL}/api/clients`, {
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`
             },
         }).then(response => {
             if (response.status === 200) {
@@ -42,7 +51,10 @@ export default function Clients() {
             tax: tax,
             fee: fee,
             skonto: skonto,
-        })
+         headers: {
+                'Content-Type': 'application/json',
+                 Authorization: `Bearer ${token}`
+            }})
             .then(getClientData)
             .catch(error => {
                 if(error.response.status === 409)
@@ -52,7 +64,7 @@ export default function Clients() {
                     setErrorMessage("Unbekannter Fehler");
                 }
             })
-    }else setErrorMessage("Bitte gib einen Namen ein.")
+        } else setErrorMessage("Bitte gib einen Namen ein.")
     }
 
     const changeClient = (clientName: string, street: string, location: string, tax: boolean, fee: number, skonto: number, links: Array<Link>) => {
@@ -69,7 +81,8 @@ export default function Clients() {
                 skonto: skonto
             }, {
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}`
                 }
             }).then(getClientData)
                 .then(() => setClientToChange({
@@ -100,17 +113,24 @@ export default function Clients() {
 
 
         useEffect(() => {
+            if(token.length<2){
+            navigate("/auth/login")}
+         else{
             getClientData()
-        }, [])
+            setErrorMessage('')
+        }}, [token, navigate])
 
 
-
+        useEffect(() =>{
+            const timeoutId = setTimeout(() => setErrorMessage(''), 10000);
+            return () => clearTimeout(timeoutId);
+        },[errorMessage])
 
 
 
         return (
             <div>
-                <div><Navbar/></div>
+                <Navbar/>
                 <div className="main">
                     <div className="error">{errorMessage}</div>
                     <div className=""><ClientForm createClient={createClient} allClients={allClients}

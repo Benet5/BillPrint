@@ -1,27 +1,26 @@
 import axios from "axios";
 import {Ad, Address, ImportedData, Link} from "../model";
-import {useEffect, useState} from "react";
+import {useCallback, useEffect, useState} from "react";
 import "./DataTable.css";
 import DataItem from "./DataItem";
 import Navbar from "../Navbar";
+import {useNavigate} from "react-router-dom";
+import {useAuth} from "../Auth/AuthProvider";
 
 export default function DataTable() {
     const [allData, setAllData] = useState([] as Array<ImportedData>)
     const [errorMessage, setErrorMessage] = useState('');
     const [loadingMessage, setLoadingMessage] = useState("");
+    const navigate = useNavigate();
+    const {token} = useAuth()
 
 
-
-    useEffect(() => {
-            getImportedData()
-        }, []
-    )
-
-    const getImportedData = () => {
+    const getImportedData = useCallback(() => {
         axios.get(`${process.env.REACT_APP_BASE_URL}/api/import`, {
             headers: {
-                'Content-Type': 'application/json'
-            },
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`
+            }
         }).then(response => {
             if (response.status === 200) {
                 return response.data;
@@ -32,14 +31,15 @@ export default function DataTable() {
             .catch(() => {
                 setErrorMessage("Daten konnten nicht geladen werden!");
             })
-    }
+    }, [token])
 
 
     const mapAllAdresses = () => {
-        axios.put(`${process.env.REACT_APP_BASE_URL}/api/mapping`, {
+        axios.put(`${process.env.REACT_APP_BASE_URL}/api/mapping`, null, {
             headers: {
-                'Content-Type': 'application/json'
-            },
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`
+            }
         }).then(getImportedData)
             .catch(() => {
                 setErrorMessage("Daten konnten nicht geladen werden!");
@@ -48,10 +48,11 @@ export default function DataTable() {
 
 
     const mapSelected = (name: string, ad: Ad, customer: string, listingID: string, address: Address, links: Array<Link>) => {
-        axios.put(`${process.env.REACT_APP_BASE_URL}${links.find(l => l.rel === 'self')?.href}`, {
+        axios.put(`${process.env.REACT_APP_BASE_URL}${links.find(l => l.rel === 'self')?.href}`, null, {
             headers: {
-                'Content-Type': 'application/json'
-            },
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`
+            }
         }).then(getImportedData)
             .catch(() => {
                 setErrorMessage("Daten konnten nicht geladen werden!");
@@ -60,9 +61,10 @@ export default function DataTable() {
 
 
     const createClientToPrint = () => {
-        axios.put(`${process.env.REACT_APP_BASE_URL}/api/mapping/convert`, {
+        axios.put(`${process.env.REACT_APP_BASE_URL}/api/mapping/convert`, null, {
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`
             }
         }).then(response => {
             if (response.status === 200) {
@@ -77,11 +79,12 @@ export default function DataTable() {
     const downloadPDF = () => {
         axios.get(`${process.env.REACT_APP_BASE_URL}/api/zip`, {
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`
             }, responseType: 'blob',
         }).then(response => {
-            if(response.status === 200) {
-                const url = window.URL.createObjectURL(new Blob ([response.data]));
+            if (response.status === 200) {
+                const url = window.URL.createObjectURL(new Blob([response.data]));
                 const a = document.createElement("a");
                 a.style.display = "none";
                 a.href = url;
@@ -90,60 +93,82 @@ export default function DataTable() {
                 a.click();
                 window.URL.revokeObjectURL(url);
                 alert("Die Rechnungen wurden heruntergeladen, prüfe deinen Download-Ordner!");
-            } else{
+            } else {
                 setErrorMessage("Daten konnten nicht erstellt werden!")
-        }})
+            }
+        })
 
     }
 
+    useEffect(() => {
+            if (token.length < 2) {
+                navigate("/auth/login")
+            } else {
+                getImportedData()
+            }
+        }, [token, navigate, getImportedData]
+    )
 
-
-
-
+    useEffect(() =>{
+        const timeoutId = setTimeout(() => setErrorMessage(''), 10000);
+        return () => clearTimeout(timeoutId);
+    },[errorMessage])
 
 
     // <h5>Auftraggeber</h5>
     //Sortieren vor dem Map!
     return (
-    <div>
-        <div><Navbar/></div>
+        <div>
+            <Navbar/>
 
 
-        <div className="main">
-            <div>
-                <button  className="buttonFrame" onClick={mapAllAdresses}>1. Alle Itemadressen mappen</button>
-                <span><button className="buttonFrame" onClick={createClientToPrint}>2. Rechnungen vorbereiten</button></span>
-                <span><button className="buttonFrame" onClick={downloadPDF}>3. Rechnungen herunterladen</button></span>
+            <div className="main">
+                <div className="ui main">
+                    <div className="ui1">
+                        <button className="buttonFrame" onClick={mapAllAdresses}>1. Daten mappen</button>
+                        <div>Mappe deine Items mit den Mandanten. Somit Aktualisierst du die Adresse und die
+                            Zahlungsmodalitäten für die einzelnen Items.
+                        </div>
+                    </div>
+                    <div className="ui2">
+                        <button className="buttonFrame" onClick={createClientToPrint}>2. Rechnungen vorbereiten</button>
+                        <div>Erstelle die Rechnungsobjekte, die als PDF gedruckt werden sollen.</div>
+                    </div>
+                    <div className="ui3">
+                        <button className="buttonFrame" onClick={downloadPDF}>3. Rechnungen herunterladen</button>
+                        <div>Erstelle die PDF-Rechnungen und lade sie dir als ZIP-Archiv herunter.
+                        </div>
+                    </div>
+                </div>
+                <div className="success"> {loadingMessage} </div>
+                <div className="parent">
+                    <h5></h5>
+                    <h5>Name</h5>
+                    <h5>Title</h5>
+                    <h5>Anzeigentyp</h5>
+                    <h5>Laufzeit (in Tagen)</h5>
+                    <h5>Auftragsart</h5>
+                    <h5>Ausschreibungs-Ort</h5>
+                    <h5>Anschrift</h5>
+                    <h5>Straße, Hausnummer</h5>
+                    <h5>PLZ, Ort</h5>
+
+                </div>
+
+                <div className="tableBody">
+
+                    {allData.length > 0 ?
+                        allData.map((e: ImportedData, index) => <div key={e.name + index}>
+
+                            <DataItem item={e} key={e.name + index} mapSelected={mapSelected}/></div>)
+                        :
+
+                        <div className="error">  {errorMessage}</div>
+                    }
+                </div>
             </div>
-        <div className="success"> {loadingMessage} </div>
-    <div className="parent">
-        <h5> </h5>
-        <h5>Name</h5>
-        <h5>Title</h5>
-        <h5>Anzeigentyp</h5>
-        <h5>Laufzeit (in Tagen)</h5>
-        <h5>Auftragsart</h5>
-        <h5>Ausschreibungs-Ort</h5>
-        <h5>Anschrift</h5>
-        <h5>Straße, Hausnummer</h5>
-        <h5>PLZ, Ort</h5>
-
-    </div >
-
-<div className="tableBody">
-
-    {allData.length>0 ?
-        allData.map((e: ImportedData, index) => <div  key={e.name + index}>
-
-            <DataItem item={e} key={e.name + index} mapSelected={mapSelected}/></div>)
-        :
-
-            <div className="error">  {errorMessage}</div>
-    }
-</div>
-
         </div>
-    </div>
+
 
     )
 }

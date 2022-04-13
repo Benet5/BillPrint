@@ -37,8 +37,8 @@ export default function Landingpage() {
     const registerService = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         if (registerUserEmail.length > 2 && registerUserPassword === registerUserPasswordValidate) {
-            return axios.post(`${process.env.REACT_APP_BASE_URL}/auth`, {
-                    registerUserEmail,
+            return axios.post(`${process.env.REACT_APP_BASE_URL}/auth/create`, {
+                    email: registerUserEmail,
                     password: registerUserPassword,
                     passwordValidate: registerUserPasswordValidate
                 , headers: {
@@ -70,7 +70,14 @@ export default function Landingpage() {
             <div className="main">
                 <div className="error">{errorMessage}</div>
                 <div className="error">{loadingMessage}</div>
+                <div className="welcome">
+                    <h4>Willkommen bei BillPrint!</h4>
+                    <p>Mit dieser App kannst du aus importierten Daten(CSV) deine Rechnungen als PDF drucken lassen.</p>
+                    <p>Verantwortlich für den Inhalt und die Verwaltung ist: <a href="mailto: admin@billprint.de">Admin Billprint</a></p>
+                    <p>Falls du für eine Registrierung noch nicht freigeschaltet bist, melde dich bitte beim Admin.</p>
+                </div>
                 <div className="landingpage">
+
                 <div className="login">
                     <form onSubmit={ev => loginService(ev)}>
                         <h3>Login</h3>

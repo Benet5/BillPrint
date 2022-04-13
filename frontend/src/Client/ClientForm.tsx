@@ -54,7 +54,7 @@ export default function ClientForm(props: ClientFormProps) {
 
         <div>
             <div>Mandantenanlage
-                <p>Hier können die Mandaten angelegt oder bearbeitet werden. Achte darauf, dass je Mandatenname nur
+                <p>Hier können die Mandaten angelegt oder bearbeitet werden. Achte darauf, dass je Mandantenname nur
                     ein
                     Datensatz existieren kann.</p>
                 <button className="buttonFrame" onClick={setData}>Mandanten anlegen</button>
@@ -72,19 +72,21 @@ export default function ClientForm(props: ClientFormProps) {
                                 onChange={e => setLocation(e.target.value)}/></div>
                 </div>
                 <div className="calcData">
-                    <div className="calcPair">
-                        <div>Verrechnungsdaten: Zuschläge</div>
-                        <input className="inputCalc" type="checkbox" checked={tax} onChange={handleTaxes}/>
-                        <span className="description">19% Mehrwertsteuer</span>
-                    </div>
-                    <div className="calcPair">
-                        <input className="inputCalc" value={fee} type="number"
+                        <div style={{marginBottom: "5px"}}>Verrechnungsdaten: Zuschläge</div>
+                        <div className="add">
+                        <input className="inputCalc check f1" type="checkbox" checked={tax} onChange={handleTaxes}/>
+                        <div className="description f2">19% Mehrwertsteuer</div>
+
+
+                        <input className="inputCalc f3" value={fee} type="number"
                                onChange={e => setFee(e.target.valueAsNumber)}/>
-                        <span className="description">Bearbeitungsgebühr in % der jeweiligen Gesamtsumme</span>
+                        <div className="description f4">Bearbeitungsgebühr in % der jeweiligen Gesamtsumme</div>
+
                     </div>
-                    <div className="calcPair">
-                        <div>Verrechnungsdaten: Abzüge</div>
-                        <input className="inputCalc" value={skonto} type="number"
+
+                    <div className="calcPair2 neg">
+                        <div style={{marginBottom: "5px"}}>Verrechnungsdaten: Abzüge</div>
+                        <input className="inputCalc small" value={skonto} type="number"
                                onChange={e => setSkonto(e.target.valueAsNumber)}/>
                         <span className="description">Skonto in % der jeweiligen Gesamtsumme</span>
                     </div>
