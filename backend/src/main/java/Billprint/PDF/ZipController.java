@@ -19,7 +19,6 @@ import java.util.zip.ZipOutputStream;
 @RestController
 @RequestMapping("/api/zip")
 @RequiredArgsConstructor
-@CrossOrigin
 public class ZipController {
     private static final Logger LOG = LoggerFactory.getLogger(ZipController.class);
 
