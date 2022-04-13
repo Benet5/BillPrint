@@ -19,7 +19,7 @@ public class AppUserController {
     private final WhitelistService whitelistService;
 
 
-    @PostMapping
+    @PostMapping("/create")
     public ResponseEntity<AppUser> createUser(@RequestBody RegisterData loginData) {
         if (appUserService.findByEmail(loginData.getEmail()).isEmpty()) {
             if (loginData.getPasswordValidate().equals(loginData.getPassword()) && whitelistService.check(loginData.getEmail())) {

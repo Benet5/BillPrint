@@ -37,9 +37,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .cors().configurationSource(corsConfigurationSource())
                 .and()
                 .authorizeRequests()
-                .mvcMatchers(HttpMethod.POST, "/auth", "/auth/login").permitAll()
-                //.antMatchers("/").authenticated()
-                .antMatchers("/**").permitAll()
+                .mvcMatchers(HttpMethod.POST, "/auth/create", "/auth/login").permitAll()
+                .antMatchers("/auth").authenticated()
+                .antMatchers("/").authenticated()
+                .antMatchers("/**").authenticated()
                 .and()
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class) //Spring Security meint mit Username immer das, was wir als sub nutzen beim Login/Registrieren
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
