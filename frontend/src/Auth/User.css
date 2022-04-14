@@ -13,3 +13,19 @@
 .register{
     grid-area: 1/2/1/2;
 }
+
+.userform{
+    margin-bottom: 20px;
+}
+.usertable{
+    display: grid;
+    grid-template-columns: 3rem 8rem;
+}
+
+.userC1{
+    grid-area:1/1/1/1;
+}
+
+.userC2{
+    grid-area:1/2/1/2;
+}

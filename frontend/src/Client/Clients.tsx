@@ -117,7 +117,6 @@ export default function Clients() {
             navigate("/auth/login")}
          else{
             getClientData()
-            setErrorMessage('')
         }}, [token, navigate, getClientData])
 
 
