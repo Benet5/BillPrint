@@ -31,4 +31,8 @@ public class AppUserService {
        return appUserRepo.findAll()
                  .stream().map(e -> UserDTO.of(e.getEmail())).toList();
     }
+
+    public void deleteByEmail(String email){
+        appUserRepo.deleteByEmail(email);
+    }
 }

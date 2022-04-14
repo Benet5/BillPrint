@@ -8,4 +8,6 @@ import java.util.Optional;
 @Repository
 public interface WhitelistRepo extends MongoRepository<Whitelist, String> {
 Optional<Whitelist> findByEmail(String email);
+
+void deleteByEmail(String email);
 }

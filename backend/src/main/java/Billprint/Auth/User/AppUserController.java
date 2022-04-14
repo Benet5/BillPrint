@@ -45,7 +45,26 @@ public class AppUserController {
         if(appUserService.findByEmail(principal.getName()).isPresent()){
             return ResponseEntity.status(200)
                     .body(whitelistService.findAll());
-        } else return ResponseEntity.status(400).build();
+        } else return ResponseEntity.status(403).build();
+    }
+
+
+    @DeleteMapping ("/whitelist")
+    public ResponseEntity<Void> deleteWhitelist(@RequestParam("email") String email,Principal principal){
+        if(appUserService.findByEmail(principal.getName()).isPresent() && whitelistService.check(email)){
+            whitelistService.deleteByEmail(email);
+            return ResponseEntity.status(200).build();
+        } return ResponseEntity.status(400).build();
+
+    }
+
+    @DeleteMapping ()
+    public ResponseEntity<Void> deleteUser(@RequestParam("email") String email,Principal principal){
+        if(appUserService.findByEmail(principal.getName()).isPresent() && appUserService.findByEmail(email).isPresent()){
+            appUserService.deleteByEmail(email);
+            return ResponseEntity.status(200).build();
+        } return ResponseEntity.status(400).build();
+
     }
 
     @GetMapping()

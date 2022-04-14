@@ -16,7 +16,20 @@
 
 .userform{
     margin-bottom: 20px;
+    display: grid;
+    grid-template-columns: repeat(2, 20rem);
 }
+
+.userCreate{
+   grid-area: 1/1/1/1;
+}
+
+.userDelete{
+    grid-area: 1/2/1/2;
+}
+
+
+
 .usertable{
     display: grid;
     grid-template-columns: 3rem 8rem;

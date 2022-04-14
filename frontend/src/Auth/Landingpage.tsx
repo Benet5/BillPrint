@@ -29,7 +29,13 @@ export default function Landingpage() {
         if (loginUserEmail.length > 3)
             login(loginUserEmail, loginUserPassword)
                 .then(() => navigate("/table"))
-                .catch(e => setErrorMessage(e.message))
+                .catch(error => {
+                    if (error.response.status === 400){
+                        setErrorMessage("Deine Logindaten sind fehlerhaft.");
+                    } else{
+                        setErrorMessage("Unbekannter Fehler während der Anmeldung.")
+                    }
+                })
 
     }
 
