@@ -7,11 +7,13 @@
 
 .parentNavbar{
     display: grid;
-    grid-template-columns:  repeat(4, 1fr);
+    grid-template-columns:  repeat(5, 1fr);
     grid-column-gap: 20px;
     justify-items: center;
-    width: max-content;
-    margin-bottom: 50px;
+    width: auto;
+    padding-bottom: 25px;
+    padding-top: 35px;
+    background-color: #8C2D4B;
 }
 
 
@@ -30,7 +32,7 @@
 .header{
   width: auto;
    height: 150px;
-    margin-bottom: 10px;
+
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     background-color: #1E5A78;

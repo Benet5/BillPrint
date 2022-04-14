@@ -1,11 +1,15 @@
 .clientForm{
     display: grid;
-    grid-template-columns:  repeat(2, 1fr);
+    grid-template-columns: 20px repeat(2, 1fr) 20px;
     background-color: transparent;
+    margin: 10px;
+    justify-items: center;
+
+
 }
 
 .address{
-    grid-area: 1/1/1/1;
+    grid-area: 1/2/1/2;
 
 }
 
@@ -19,29 +23,65 @@
 }
 
 .calcData{
-    grid-area: 1/2/1/2;
+    grid-area: 1/3/1/3;
+
 
 }
 
 .inputCalc{
-
     padding: 5px;
     border-radius: 5px;
     border: solid 2px black;
     margin: 2px;
-    width: 50px;
+}
+
+.add{
+    margin-bottom: 5px;
+    display: grid;
+    grid-template-columns: 4rem minmax(12rem, 25rem);
+    grid-column-gap: 5px;
+    grid-row-gap: 5px;
+}
+
+.calcPair1{
 
 }
 
+.neg{
+    margin-top: 20px;
+    vertical-align: middle
+}
+
+.check{
+    transform: scale(1.5);
+    margin-left: 5px;
+}
+
+.f1{
+    grid-area: 1/1/1/1;
+}
+
+.f2{
+    grid-area: 1/2/1/2;
+}
+
+.f3{
+    grid-area: 2/1/2/1;
+}
+
+.f4{
+    grid-area: 2/2/2/2;
+}
 p{
     margin-bottom: 5px;
+}
+.small{
+    width: 3rem;
 }
 
 .description{
     font-size: 12px;
     margin-left: 10px;
+    align-self: center;
 }
 
-.calcPair{
-    margin-bottom: 10px;
-}

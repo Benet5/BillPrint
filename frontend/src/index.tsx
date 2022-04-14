@@ -8,6 +8,7 @@ import DataTable from "./ImportedData/DataTable";
 import Clients from "./Client/Clients";
 import Landingpage from "./Auth/Landingpage";
 import AuthProvider from "./Auth/AuthProvider";
+import User from "./User";
 
 ReactDOM.render(
     <React.StrictMode>
@@ -20,7 +21,9 @@ ReactDOM.render(
                     <Route path ="/table" element ={<DataTable/>}/>
                     <Route path= "/clients" element ={<Clients/>}/>
                     <Route path="/start" element={<Landingpage/>}/>
+                    <Route path="/user" element={<User/>}/>
                     <Route path="/*" element={<Landingpage/>}/>
+                    <Route path="/" element={<Landingpage/>}/>
                 </Route>
             </Routes>
            </AuthProvider>
