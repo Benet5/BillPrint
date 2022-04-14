@@ -17,7 +17,7 @@ ReactDOM.render(
            <AuthProvider>
             <Routes>
                 <Route path ="/" element ={<App/>}>
-                    <Route path ="/api/import" element ={<CSVImport/>}/>
+                    <Route path ="/import" element ={<CSVImport/>}/>
                     <Route path ="/table" element ={<DataTable/>}/>
                     <Route path= "/clients" element ={<Clients/>}/>
                     <Route path="/start" element={<Landingpage/>}/>

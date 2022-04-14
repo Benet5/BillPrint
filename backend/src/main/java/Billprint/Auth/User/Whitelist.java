@@ -9,7 +9,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Data
 @RequiredArgsConstructor
 @AllArgsConstructor
-@Document(collection= "whitelist")
+@Document(collection= "Whitelist")
 public class Whitelist {
 
     @Id

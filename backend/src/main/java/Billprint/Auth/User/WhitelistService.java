@@ -23,4 +23,11 @@ public class WhitelistService {
         return actual.isPresent();
     }
 
+    public List<UserDTO> findAll(){
+        return whitelistRepo.findAll()
+                .stream().map(e -> UserDTO.of(e.getEmail())).toList();
+    }
+
+
+
 }

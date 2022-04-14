@@ -39,6 +39,8 @@ export interface ClientStructure{
     fee: number;
     skonto: number;
     links: Array <Link>;
+}
 
-
+export interface UserData{
+    email: string;
 }

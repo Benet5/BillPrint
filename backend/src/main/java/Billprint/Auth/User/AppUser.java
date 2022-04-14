@@ -6,7 +6,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 @Data
 @RequiredArgsConstructor
-@Document(collection= "user")
+@Document(collection= "User")
 public class AppUser {
 
     @Id
