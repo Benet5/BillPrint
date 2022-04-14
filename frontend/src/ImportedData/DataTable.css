@@ -13,22 +13,27 @@ li{
 }
 .parent {
     display: grid;
-    grid-template-columns: 4rem minmax(8rem, 15rem) minmax(12rem, 20rem) 6rem 7rem 7rem minmax(7rem, 12rem) repeat(3, minmax(8rem, 15rem));
+    grid-template-columns: 5rem minmax(8rem, 15rem) minmax(12rem, 20rem) 6rem 7rem 7rem minmax(7rem, 12rem) repeat(3, minmax(8rem, 15rem));
     grid-column-gap: 4px;
     grid-row-gap: 2px;
     justify-items: start;
     justify-self: start;
+    align-items: center;
     margin-bottom:5px;
-
+    width: auto;
+    position: sticky;
+    top:0;
 }
+
 
 .datatable {
     display: grid;
-    grid-template-columns: 4rem minmax(8rem, 15rem) minmax(12rem, 20rem) 6rem 7rem 7rem minmax(7rem, 12rem) repeat(3, minmax(8rem, 15rem));
+    grid-template-columns: 5rem minmax(8rem, 15rem) minmax(12rem, 20rem) 6rem 7rem 7rem minmax(7rem, 12rem) repeat(3, minmax(8rem, 15rem));
     grid-column-gap: 4px;
     grid-row-gap: 2px;
     justify-items: start;
     justify-self: start;
+    align-items: center;
 
 }
 
@@ -43,31 +48,7 @@ li{
 
 }
 
-.clientBody{
-    display: block;
-    min-width: 1000px;
-    max-width: 1400px;
-    height: 200px;
-    overflow-y: auto;
-    overflow-x: auto;
-    justify-self: start;
-    border: solid black 2px;
-    margin: 10px;
-}
 
-.head{
-    margin-top: 5px;
-    margin-bottom: 10px;
-}
-.parentClientTable{
-    display: grid;
-    grid-template-columns: 4rem repeat(2, minmax(10rem, 18rem)) minmax(8rem, 12rem) repeat(3, 7rem);
-    grid-column-gap: 4px;
-    grid-row-gap: 2px;
-    justify-items: start;
-
-
-}
 
 .error{
     color:red;
@@ -90,7 +71,7 @@ li{
     border-radius: 5px;
     border: solid 1px #64C8B9;
     margin: 2px;
-    font-size: 10px;
+    font-size: 12px;
     cursor: pointer;
 }
 
@@ -108,7 +89,7 @@ input[type="file"] {
 }
 
 .main{
-    margin: 20px;
+    margin: 2rem;
 
 }
 
@@ -124,6 +105,8 @@ input[type="file"] {
     grid-column-gap: 5px;
     font-size: 12px;
     text-align: center;
+    margin-bottom: 3rem;
+
 }
 
 .ui1{
@@ -139,8 +122,12 @@ input[type="file"] {
 .table{
     border: solid black 2px;
     margin: 10px;
-
 }
+
+.info{
+    margin: 5px;
+}
+
 
 .companyName{
     grid-area:1/1/1/1;

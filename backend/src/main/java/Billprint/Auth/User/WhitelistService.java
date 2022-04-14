@@ -1,7 +1,7 @@
 package Billprint.Auth.User;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
+
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -28,6 +28,9 @@ public class WhitelistService {
                 .stream().map(e -> UserDTO.of(e.getEmail())).toList();
     }
 
+    public void deleteByEmail(String email){
+        whitelistRepo.deleteByEmail(email);
+    }
 
 
 }

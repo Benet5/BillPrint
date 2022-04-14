@@ -14,6 +14,8 @@ export default function User() {
     const [emailValidate, setEmailValidate] = useState("");
     const [allWhitelistData, setAllWhitelistData] = useState([] as Array<UserData>);
     const [allUserData, setAllUserData] = useState([] as Array<UserData>);
+    const [toDelete, setToDelete] = useState("")
+    const [toDeleteValidate, setToDeleteValidate] = useState("")
 
 
     const addUser = () => {
@@ -29,6 +31,10 @@ export default function User() {
                 }
             })
                 .then(getWhitelistet)
+                .then(() => {
+                    setEmail('');
+                    setEmailValidate('')
+                })
                 .catch(error => {
                     if (error.response.status === 409) {
                         setErrorMessage("Diese*r Nutzer*in existiert schon!");
@@ -39,6 +45,49 @@ export default function User() {
                     }
                 })
         } else setErrorMessage("Email-Adressen stimmen nicht überein.");
+    }
+
+
+    const deleteWhitelist = () =>{
+        if(toDelete === toDeleteValidate) {
+            fetch(`${process.env.REACT_APP_BASE_URL}/auth/whitelist?email=` + toDelete, {
+                method: "DELETE",
+                headers: {
+                    'Content-Type': "text/plain",
+                    Authorization: `Bearer ${token}`
+                }
+            }).then(getWhitelistet)
+              .then(() => {
+                setToDelete('');
+                setToDeleteValidate('')
+            })
+                .catch(error => {
+                    if (error.response.status === 400) {
+                        setErrorMessage("Eintrag nicht gefunden");
+                    } else {
+                        setErrorMessage("Unbekannter Fehler");
+                    }
+                })
+        }else{ setErrorMessage("Die Nutzernamen stimmen nicht überein.")}
+    }
+
+    const deleteUser = () =>{
+        if(toDelete === toDeleteValidate) {
+            fetch(`${process.env.REACT_APP_BASE_URL}/auth?email=` + toDelete, {
+                method: "DELETE",
+                headers: {
+                    'Content-Type': "text/plain",
+                    Authorization: `Bearer ${token}`
+                }
+            }).then(getWhitelistet)
+                .catch(error => {
+                    if (error.response.status === 400) {
+                        setErrorMessage("Eintrag nicht gefunden");
+                    } else {
+                        setErrorMessage("Unbekannter Fehler");
+                    }
+                })
+        }else{ setErrorMessage("Die Nutzernamen stimmen nicht überein.")}
     }
 
     const getWhitelistet = useCallback(() => {
@@ -99,24 +148,39 @@ export default function User() {
         }, [token, navigate, getWhitelistet, getUser]
     )
 
+    useEffect(() =>{
+        const timeoutId = setTimeout(() => setErrorMessage(''), 10000);
+        return () => clearTimeout(timeoutId);
+    },[errorMessage])
 
     return (
         <div>
             <Navbar/>
-            <div>{errorMessage}</div>
+            <div className="error">{errorMessage}</div>
             <div className="main">
                 <div className="userform">
-                    <div> Nutzer*infreigabe
+                    <div className="userCreate">
+                        <div>Nutzer*in auf die Whitelist schreiben</div>
                         <div><input className="input" type='text' placeholder={"Email"} value={email}
                                     onChange={e => setEmail(e.target.value)}/></div>
-                        <div><input className="input" type='text' placeholder={"Email"} value={emailValidate}
+                        <div><input className="input" type='text' placeholder={"Email-Validierung"} value={emailValidate}
                                     onChange={e => setEmailValidate(e.target.value)}/></div>
                         <button className="buttonFrame" onClick={addUser}>Nutzer*in freigeben</button>
                     </div>
-
+                    <div className="userDelete">
+                        <div>Nutzer*in löschen</div>
+                    <div><input className="input" type='text' placeholder={"Email"} value={toDelete}
+                                onChange={e => setToDelete(e.target.value)}/></div>
+                    <div><input className="input" type='text' placeholder={"Email-Validierung"} value={toDeleteValidate}
+                                onChange={e => setToDeleteValidate(e.target.value)}/></div>
+                    <button className="buttonFrame" onClick={deleteWhitelist}>Nutzer von der Whitelist löschen</button>
+                     <button className="buttonFrame" onClick={deleteUser}>Nutzeraccount löschen</button>
+                    </div>
                 </div>
-                <div>
-                    <div>List aller freigeschalteter Nutzer*innen</div>
+                <div className="userform">
+                <div className="userCreate">
+                    <h4>Whitelist</h4>
+                    <div style={{marginBottom: "10px"}}>Liste aller freigeschalteter Nutzer*innen</div>
                     {allWhitelistData.length > 0
                         ?
                         allWhitelistData.map((e, index) => <div className="usertable" key={e.email + index}>
@@ -127,8 +191,9 @@ export default function User() {
                         <div>{errorMessage}</div>
                     }
                 </div>
-                <div>
-                    <div>List aller registrierter Nutzer*innen</div>
+                <div className="userDelete">
+                    <h4>Registered User</h4>
+                    <div style={{marginBottom: "10px"}}>Liste aller registrierter Nutzer*innen</div>
                     {allUserData.length > 0
                         ?
                         allUserData.map((e, index) => <div className="usertable" key={e.email + index}>
@@ -140,7 +205,7 @@ export default function User() {
                     }
                 </div>
 
-
+                </div>
             </div>
         </div>
 

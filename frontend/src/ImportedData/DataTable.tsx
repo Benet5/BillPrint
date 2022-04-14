@@ -126,21 +126,22 @@ export default function DataTable() {
                 <div className="ui main">
                     <div className="ui1">
                         <button className="buttonFrame" onClick={mapAllAdresses}>1. Daten mappen</button>
-                        <div>Mappe deine Items mit den Mandanten. Somit Aktualisierst du die Adresse und die
-                            Zahlungsmodalitäten für die einzelnen Items.
+                        <div className="info">Mappe deine Items mit den Mandanten. Somit Aktualisierst du die Adresse und die
+                            Zahlungsmodalitäten für die einzelnen Items. Sollten noch keine Mandanten angelegt sein, erstellst du neue.
                         </div>
                     </div>
                     <div className="ui2">
                         <button className="buttonFrame" onClick={createClientToPrint}>2. Rechnungen vorbereiten</button>
-                        <div>Erstelle die Rechnungsobjekte, die als PDF gedruckt werden sollen.</div>
+                        <div className="info">Erstelle die Rechnungsobjekte, die als PDF gedruckt werden sollen.</div>
                     </div>
                     <div className="ui3">
                         <button className="buttonFrame" onClick={downloadPDF}>3. Rechnungen herunterladen</button>
-                        <div>Erstelle die PDF-Rechnungen und lade sie dir als ZIP-Archiv herunter.
+                        <div className="info">Erstelle die PDF-Rechnungen und lade sie dir als ZIP-Archiv herunter.
                         </div>
                     </div>
                 </div>
                 <div className="success"> {loadingMessage} </div>
+                <div className="tableBody">
                 <div className="parent">
                     <h5> </h5>
                     <h5>Name</h5>
@@ -155,7 +156,7 @@ export default function DataTable() {
 
                 </div>
 
-                <div className="tableBody">
+                <div >
 
                     {allData.length > 0 ?
                         allData.map((e: ImportedData, index) => <div key={e.name + index}>
@@ -165,6 +166,7 @@ export default function DataTable() {
 
                         <div className="error">  {errorMessage}</div>
                     }
+                </div>
                 </div>
             </div>
         </div>
