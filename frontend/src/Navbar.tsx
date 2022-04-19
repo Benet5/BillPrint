@@ -9,11 +9,11 @@ export default function Navbar(){
     return(
 
         <div className="parentNavbar">
-            <Link to="/import" className="link">CSV importieren</Link>
-            <Link to="/table" className="link">Datenübersicht</Link>
-            <Link to ="/clients" className="link">Mandantenverwaltung</Link>
-            <Link to="/user" className="link">Nutzer*innen-Verwaltung</Link>
-            <span style={{background:"transparent"}}><button className="link" onClick={logout}>Logout</button></span>
+            <Link style={{justifySelf:"start"}} to="/import" className="link">CSV importieren</Link>
+            <Link style={{justifySelf:"start"}} to="/table" className="link">Datenübersicht</Link>
+            <Link style={{justifySelf:"start"}} to ="/clients" className="link">Mandantenverwaltung</Link>
+            <Link style={{justifySelf:"start"}} to="/user" className="link">Nutzer*innen-Verwaltung</Link>
+            <span style={{background:"transparent", justifySelf:"end"}}><button className="link" onClick={logout}>Logout</button></span>
 
         </div>
 
