@@ -45,12 +45,13 @@ export default function Clients() {
         const clientNameExport = clientName.replace(/(\r\n|\n|\r)/gm, "")
         if (clientName.length > 3) {
         axios.post(`${process.env.REACT_APP_BASE_URL}/api/clients`, {
-            name: clientNameExport,
-            street: streetExport,
-            location: locationExport,
-            tax: tax,
-            fee: fee,
-            skonto: skonto,
+                name: clientNameExport,
+                street: streetExport,
+                location: locationExport,
+                tax: tax,
+                fee: fee,
+                skonto: skonto
+            },{
          headers: {
                 'Content-Type': 'application/json',
                  Authorization: `Bearer ${token}`
@@ -111,6 +112,34 @@ export default function Clients() {
         })
     }
 
+    const deleteClient = (links: Array<Link>) => {
+        if (links.length > 0) {
+            axios.delete(`${process.env.REACT_APP_BASE_URL}${links.find(l => l.rel === 'self')?.href}`, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}`
+                }
+            }).then(getClientData)
+                .then(() => setClientToChange({
+                    name: "",
+                    street: "",
+                    location: "",
+                    tax: false,
+                    fee: 0,
+                    skonto: 0,
+                    links: []
+                }))
+                .catch(error => {
+                    if (error.response.status === 400) {
+                        setErrorMessage("Client konnte nicht gelöscht werden.");
+                    } else {
+                        setErrorMessage("Unbekannter Fehler bei der Löschung.")
+                    }
+                })
+        } else setErrorMessage("Bitte wähle zuerst einen Mandanten aus.")
+    }
+
+
 
         useEffect(() => {
             if(token.length<2){
@@ -133,7 +162,7 @@ export default function Clients() {
                 <div className="main">
                     <div className="error">{errorMessage}</div>
                     <div className=""><ClientForm createClient={createClient} allClients={allClients}
-                                                  clientToChange={clientToChange} changeClient={changeClient} /></div>
+                                                  clientToChange={clientToChange} changeClient={changeClient} deleteClient={deleteClient}/></div>
                     <div className="clientBody"><ClientTable getClientData={getClientData} allClients={allClients}
                                                         setToForm={setToForm} /></div>
 

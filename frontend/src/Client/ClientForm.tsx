@@ -6,6 +6,7 @@ interface ClientFormProps {
     clientToChange: ClientStructure;
     allClients: Array<ClientStructure>;
     changeClient: (clientName: string, street: string, location: string, tax: boolean, fee: number, skonto: number, links: Array<Link>) => void;
+    deleteClient: (links: Array<Link> ) => void;
 }
 
 
@@ -49,17 +50,23 @@ export default function ClientForm(props: ClientFormProps) {
         setSkonto(0)
     }
 
+    const deleteClient = () =>{
+        props.deleteClient(props.clientToChange.links)
+    }
+
 
     return (
 
         <div>
-            <div>Mandantenanlage
+            <div> <h4>Mandantenanlage</h4>
                 <p>Hier können die Mandaten angelegt oder bearbeitet werden. Achte darauf, dass je Mandantenname nur
                     ein
                     Datensatz existieren kann.</p>
-                <button className="buttonFrame" onClick={setData}>Mandanten anlegen</button>
-                <button className="buttonFrame" onClick={changeData}>Mandanten ändern</button>
-
+                <div className="clientNav">
+                <button className="buttonFrame cnav1" onClick={setData}>Mandanten anlegen</button>
+                <button className="buttonFrame cnav2" onClick={changeData}>Mandanten ändern</button>
+                <div style= {{display: "flex", justifyContent:"flex-end"}}><button className="buttonDelete" onClick={deleteClient}>Mandanten löschen</button></div>
+                </div>
             </div>
             <div className="clientForm">
                 <div className="address">

@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -61,4 +60,12 @@ public class ImportController {
     public void deleteItem(@PathVariable String id) {
         importService.deleteById(id);
     }
+
+    @DeleteMapping
+    public ResponseEntity<Void> deleteAll() {
+        importService.deleteAllData();
+        return ResponseEntity.status(200).build();
+    }
+
+
 }

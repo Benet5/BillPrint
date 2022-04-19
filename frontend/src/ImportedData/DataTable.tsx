@@ -100,6 +100,15 @@ export default function DataTable() {
 
     }
 
+    const deleteAll = () =>{
+        axios.delete(`${process.env.REACT_APP_BASE_URL}/api/import`,{
+            headers:{
+                Authorization: `Bearer ${token}`
+            }
+        }).then(getImportedData)
+            .catch(() => setErrorMessage("Daten konnten nicht gelöscht werden."))
+    }
+
     useEffect(() => {
             if (token.length < 2) {
                 navigate("/auth/login")
@@ -140,7 +149,12 @@ export default function DataTable() {
                         </div>
                     </div>
                 </div>
-                <div className="success"> {loadingMessage} </div>
+                {allData.length > 0 &&
+                    <div style={{display: "flex", justifyContent: "flex-end", alignItems: "center"}}>
+                        <button className="buttonDelete" onClick={deleteAll}>Alle Rechnungsdaten löschen</button>
+                    </div>
+                }
+                    <div className="success"> {loadingMessage} </div>
                 <div className="tableBody">
                 <div className="parent">
                     <h5> </h5>
