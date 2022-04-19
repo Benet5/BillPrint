@@ -160,7 +160,7 @@ export default function User() {
             <div className="main">
                 <div className="userform">
                     <div className="userCreate">
-                        <div>Nutzer*in auf die Whitelist schreiben</div>
+                        <h3>Nutzer*in auf die Whitelist schreiben</h3>
                         <div><input className="input" type='text' placeholder={"Email"} value={email}
                                     onChange={e => setEmail(e.target.value)}/></div>
                         <div><input className="input" type='text' placeholder={"Email-Validierung"} value={emailValidate}
@@ -168,7 +168,7 @@ export default function User() {
                         <button className="buttonFrame" onClick={addUser}>Nutzer*in freigeben</button>
                     </div>
                     <div className="userDelete">
-                        <div>Nutzer*in löschen</div>
+                        <h3>Nutzer*in löschen</h3>
                     <div><input className="input" type='text' placeholder={"Email"} value={toDelete}
                                 onChange={e => setToDelete(e.target.value)}/></div>
                     <div><input className="input" type='text' placeholder={"Email-Validierung"} value={toDeleteValidate}
@@ -179,7 +179,7 @@ export default function User() {
                 </div>
                 <div className="userform">
                 <div className="userCreate">
-                    <h4>Whitelist</h4>
+                    <h3>Whitelist</h3>
                     <div style={{marginBottom: "10px"}}>Liste aller freigeschalteter Nutzer*innen</div>
                     {allWhitelistData.length > 0
                         ?
@@ -192,7 +192,7 @@ export default function User() {
                     }
                 </div>
                 <div className="userDelete">
-                    <h4>Registered User</h4>
+                    <h3>Registered User</h3>
                     <div style={{marginBottom: "10px"}}>Liste aller registrierter Nutzer*innen</div>
                     {allUserData.length > 0
                         ?
