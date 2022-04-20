@@ -173,8 +173,8 @@ export default function User() {
                                 onChange={e => setToDelete(e.target.value)}/></div>
                     <div><input className="input" type='text' placeholder={"Email-Validierung"} value={toDeleteValidate}
                                 onChange={e => setToDeleteValidate(e.target.value)}/></div>
-                    <button className="buttonFrame" onClick={deleteWhitelist}>Nutzer von der Whitelist löschen</button>
-                     <button className="buttonFrame" onClick={deleteUser}>Nutzeraccount löschen</button>
+                    <button className="buttonFrame" onClick={deleteWhitelist}>Nutzer*in von der Whitelist löschen</button>
+                     <button className="buttonFrame" onClick={deleteUser}>Nutzer*inaccount löschen</button>
                     </div>
                 </div>
                 <div className="userform">

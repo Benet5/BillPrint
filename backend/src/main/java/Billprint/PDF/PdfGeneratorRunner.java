@@ -63,7 +63,7 @@ public class PdfGeneratorRunner {
         data.put("allItemsFromClient", allItemsFromClient);
 
 
-        pdfGenerateService.generatePdfFile("generate", data, clientToPrint.getAddress().getName()+".pdf", out);
+        pdfGenerateService.generatePdfFile("generateTemplate", data, clientToPrint.getAddress().getName()+".pdf", out);
 
     }
 }
