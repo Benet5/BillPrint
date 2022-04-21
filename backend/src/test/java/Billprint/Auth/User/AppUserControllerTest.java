@@ -17,6 +17,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class AppUserControllerTest {
@@ -56,10 +57,12 @@ class AppUserControllerTest {
        UserDTO newUserDTO2 = new UserDTO();
        newUserDTO2.setEmail("happel");
 
-        ResponseEntity<UserDTO> postResponse12 = restTemplate.exchange("/auth/whitelist/add", HttpMethod.POST, new HttpEntity<>(newUserDTO, createHeaders(loginResponse9.getBody())), UserDTO.class);
-        assertEquals(postResponse12.getStatusCode(), HttpStatus.CREATED);
 
-       ResponseEntity<UserDTO> postResponse13 = restTemplate.exchange("/auth/whitelist/add", HttpMethod.POST, new HttpEntity<>(newUserDTO2, createHeaders(loginResponse9.getBody())), UserDTO.class);
+
+        ResponseEntity<UserDTO> postResponse12 = restTemplate.exchange("/auth/whitelist/add", HttpMethod.POST, new HttpEntity<>(newUserDTO, createHeaders(loginResponse9.getBody(), loginResponse9.getHeaders().get("Set-Cookie").get(0))), UserDTO.class);
+        assertEquals(postResponse12.getStatusCode(), HttpStatus.CREATED);
+        var csrf = postResponse12.getHeaders().get("Set-Cookie").get(1);
+       ResponseEntity<UserDTO> postResponse13 = restTemplate.exchange("/auth/whitelist/add", HttpMethod.POST, new HttpEntity<>(newUserDTO2, createHeaders(loginResponse9.getBody(), postResponse12.getHeaders().get("Set-Cookie").get(1))), UserDTO.class);
        assertEquals(postResponse13.getStatusCode(), HttpStatus.CREATED);
 
        when(whitelistRepo.findByEmail("hoppel")).thenReturn(Optional.of(whitelistItem2));
@@ -69,25 +72,28 @@ class AppUserControllerTest {
        assertThat(createUserResponse10.getBody().getEmail().equals("hoppel"));
 
        when(whitelistRepo.findByEmail("happel")).thenReturn(Optional.of(whitelistItem3));
-       ResponseEntity <UserDTO[]> postResponse14 = restTemplate.exchange("/auth/whitelist", HttpMethod.GET, new HttpEntity<>(createHeaders(loginResponse9.getBody())), UserDTO[].class);
+       ResponseEntity <UserDTO[]> postResponse14 = restTemplate.exchange("/auth/whitelist", HttpMethod.GET, new HttpEntity<>(createHeaders(loginResponse9.getBody(),createUserResponse10.getHeaders().get("Set-Cookie").get(0))), UserDTO[].class);
        assertEquals(postResponse14.getStatusCode(), HttpStatus.OK);
-       assertEquals(postResponse14.getBody().length, 3);
+       assertEquals(postResponse14.getBody().length, 3); //3
 
-
-       ResponseEntity <Void> deleteResponse1 = restTemplate.exchange("/auth/whitelist?email=happel", HttpMethod.DELETE, new HttpEntity<>(createHeaders(loginResponse9.getBody())), Void.class);
+       postResponse14.getHeaders().get("Set-Cookie").get(0);
+       ResponseEntity <Void> deleteResponse1 = restTemplate.exchange("/auth/whitelist?email=happel", HttpMethod.DELETE, new HttpEntity<>(createHeaders(loginResponse9.getBody(), postResponse14.getHeaders().get("Set-Cookie").get(1))), Void.class);
        assertEquals(deleteResponse1.getStatusCode(), HttpStatus.OK);
 
-       ResponseEntity <Void> deleteResponse2 = restTemplate.exchange("/auth?email=hoppel", HttpMethod.DELETE, new HttpEntity<>(createHeaders(loginResponse9.getBody())), Void.class);
+       ResponseEntity <Void> deleteResponse2 = restTemplate.exchange("/auth?email=hoppel", HttpMethod.DELETE, new HttpEntity<>(createHeaders(loginResponse9.getBody(), deleteResponse1.getHeaders().get("Set-Cookie").get(1))), Void.class);
        assertEquals(deleteResponse2.getStatusCode(), HttpStatus.OK);
 
 
     }
 
-    private HttpHeaders createHeaders(String token){
+
+    private HttpHeaders createHeaders(String token, String csrf){
         String authHeader = "Bearer " + token;
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", authHeader);
-
+        String csrfNew = csrf.substring(11,csrf.indexOf(';')).trim();
+        headers.set("X-XSRF-TOKEN", csrfNew);
+        headers.set("Cookie", "XSRF-TOKEN="+csrf.substring(11));
         return headers;
     }
 }
