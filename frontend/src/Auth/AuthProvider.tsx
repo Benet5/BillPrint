@@ -12,8 +12,9 @@ export default function AuthProvider({children}:{children : ReactNode}) {
     const login = (userEmail : string, userPassword : string) => {
         if (userEmail.length > 3) {
             return axios.post(`${process.env.REACT_APP_BASE_URL}/auth/login`, {
-                    email: userEmail,
-                    password: userPassword,
+                email: userEmail,
+                password: userPassword,
+            },{
                 headers: {
                     'Content-Type': 'application/json',
                 }

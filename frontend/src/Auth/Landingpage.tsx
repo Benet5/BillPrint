@@ -44,10 +44,11 @@ export default function Landingpage() {
         event.preventDefault();
         if (registerUserEmail.length > 2 && registerUserPassword === registerUserPasswordValidate) {
             return axios.post(`${process.env.REACT_APP_BASE_URL}/auth/create`, {
-                    email: registerUserEmail,
-                    password: registerUserPassword,
-                    passwordValidate: registerUserPasswordValidate
-                , headers: {
+                email: registerUserEmail,
+                password: registerUserPassword,
+                passwordValidate: registerUserPasswordValidate
+            },{
+                headers: {
                     'Content-Type': 'application/json',
                 }
             }).then(response => {
