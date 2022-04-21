@@ -3,6 +3,7 @@ export interface AuthInterface{
     token: string,
     login : (userMail :string, userPassword:string) => Promise<void>,
     logout: () => void
+
 }
 
 

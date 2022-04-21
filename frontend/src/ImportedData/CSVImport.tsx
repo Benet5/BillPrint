@@ -28,7 +28,8 @@ export default function CSVImport() {
         axios.post(`${process.env.REACT_APP_BASE_URL}/api/import`, fileData, {
             headers: {
                 'Content-Type': 'multipart/form-data',
-                Authorization: `Bearer ${token}`
+                Authorization: `Bearer ${token}`,
+                'X-XSRF-TOKEN': document.cookie.replace(/(?:(?:^|.*;\s*)XSRF-TOKEN\s*=\s*([^;]*).*$)|^.*$/, '$1'),
             },
             onUploadProgress: progressEvent => {
                 console.log("Uploading : " + ((progressEvent.loaded / progressEvent.total) * 100).toString() + "%")

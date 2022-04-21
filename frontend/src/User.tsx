@@ -28,6 +28,7 @@ export default function User() {
                 headers: {
                     'Content-Type': 'application/json',
                     Authorization: `Bearer ${token}`,
+                    'X-XSRF-TOKEN': document.cookie.replace(/(?:(?:^|.*;\s*)XSRF-TOKEN\s*=\s*([^;]*).*$)|^.*$/, '$1'),
                 }
             })
                 .then(getWhitelistet)
@@ -54,7 +55,8 @@ export default function User() {
                 method: "DELETE",
                 headers: {
                     'Content-Type': "text/plain",
-                    Authorization: `Bearer ${token}`
+                    Authorization: `Bearer ${token}`,
+                    'X-XSRF-TOKEN': document.cookie.replace(/(?:(?:^|.*;\s*)XSRF-TOKEN\s*=\s*([^;]*).*$)|^.*$/, '$1'),
                 }
             }).then(getWhitelistet)
               .then(() => {
@@ -77,7 +79,8 @@ export default function User() {
                 method: "DELETE",
                 headers: {
                     'Content-Type': "text/plain",
-                    Authorization: `Bearer ${token}`
+                    Authorization: `Bearer ${token}`,
+                    'X-XSRF-TOKEN': document.cookie.replace(/(?:(?:^|.*;\s*)XSRF-TOKEN\s*=\s*([^;]*).*$)|^.*$/, '$1'),
                 }
             }).then(getWhitelistet)
                 .catch(error => {

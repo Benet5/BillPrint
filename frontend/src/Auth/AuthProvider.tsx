@@ -34,5 +34,6 @@ export default function AuthProvider({children}:{children : ReactNode}) {
         setToken('')
     }
 
+
     return <AuthContext.Provider value={{token, login, logout}}> {children}</AuthContext.Provider>;
 }

@@ -38,7 +38,8 @@ export default function DataTable() {
         axios.put(`${process.env.REACT_APP_BASE_URL}/api/mapping`, null, {
             headers: {
                 'Content-Type': 'application/json',
-                Authorization: `Bearer ${token}`
+                Authorization: `Bearer ${token}`,
+                'X-XSRF-TOKEN': document.cookie.replace(/(?:(?:^|.*;\s*)XSRF-TOKEN\s*=\s*([^;]*).*$)|^.*$/, '$1'),
             }
         }).then(getImportedData)
             .catch(() => {
@@ -51,7 +52,8 @@ export default function DataTable() {
         axios.put(`${process.env.REACT_APP_BASE_URL}${links.find(l => l.rel === 'self')?.href}`, null, {
             headers: {
                 'Content-Type': 'application/json',
-                Authorization: `Bearer ${token}`
+                Authorization: `Bearer ${token}`,
+                'X-XSRF-TOKEN': document.cookie.replace(/(?:(?:^|.*;\s*)XSRF-TOKEN\s*=\s*([^;]*).*$)|^.*$/, '$1'),
             }
         }).then(getImportedData)
             .catch(() => {
@@ -64,7 +66,8 @@ export default function DataTable() {
         axios.put(`${process.env.REACT_APP_BASE_URL}/api/mapping/convert`, null, {
             headers: {
                 'Content-Type': 'application/json',
-                Authorization: `Bearer ${token}`
+                Authorization: `Bearer ${token}`,
+                'X-XSRF-TOKEN': document.cookie.replace(/(?:(?:^|.*;\s*)XSRF-TOKEN\s*=\s*([^;]*).*$)|^.*$/, '$1'),
             }
         }).then(response => {
             if (response.status === 200) {
@@ -103,7 +106,8 @@ export default function DataTable() {
     const deleteAll = () =>{
         axios.delete(`${process.env.REACT_APP_BASE_URL}/api/import`,{
             headers:{
-                Authorization: `Bearer ${token}`
+                Authorization: `Bearer ${token}`,
+                'X-XSRF-TOKEN': document.cookie.replace(/(?:(?:^|.*;\s*)XSRF-TOKEN\s*=\s*([^;]*).*$)|^.*$/, '$1'),
             }
         }).then(getImportedData)
             .catch(() => setErrorMessage("Daten konnten nicht gelöscht werden."))
