@@ -57,10 +57,10 @@ class MappingControllerTest {
         ItemDTO item2 = ItemDTO.of(newItem2);
 
 
-        ResponseEntity<ItemDTO> postResponse1 = restTemplate.exchange("/api/import", HttpMethod.POST, new HttpEntity<>(item1, createHeaders(loginResponse.getBody())), ItemDTO.class);
+        ResponseEntity<ItemDTO> postResponse1 = restTemplate.exchange("/api/import", HttpMethod.POST, new HttpEntity<>(item1, createHeaders(loginResponse.getBody(), loginResponse.getHeaders().get("Set-Cookie").get(0))), ItemDTO.class);
         assertEquals(postResponse1.getStatusCode(), HttpStatus.CREATED);
-        ResponseEntity<ItemDTO> postResponse2 = restTemplate.exchange("/api/import", HttpMethod.POST, new HttpEntity<>(item2, createHeaders(loginResponse.getBody())), ItemDTO.class);
-        assertEquals(postResponse1.getStatusCode(), HttpStatus.CREATED);
+        ResponseEntity<ItemDTO> postResponse2 = restTemplate.exchange("/api/import", HttpMethod.POST, new HttpEntity<>(item2, createHeaders(loginResponse.getBody(), postResponse1.getHeaders().get("Set-Cookie").get(1))), ItemDTO.class);
+        assertEquals(postResponse2.getStatusCode(), HttpStatus.CREATED);
 
 
         //Clients anlegen
@@ -69,22 +69,22 @@ class MappingControllerTest {
         ClientDTO clientDTO1 =  ClientDTO.of(clientDB1);
         ClientDTO clientDTO2 =  ClientDTO.of(clientDB2);
 
-        ResponseEntity<ClientDTO> postResponse6 = restTemplate.exchange("/api/clients", HttpMethod.POST, new HttpEntity<>(clientDTO1, createHeaders(loginResponse.getBody())), ClientDTO.class);
+        ResponseEntity<ClientDTO> postResponse6 = restTemplate.exchange("/api/clients", HttpMethod.POST, new HttpEntity<>(clientDTO1, createHeaders(loginResponse.getBody(), postResponse2.getHeaders().get("Set-Cookie").get(1))), ClientDTO.class);
         assertEquals(postResponse6.getStatusCode(), HttpStatus.CREATED);
-        ResponseEntity<ClientDTO> postResponse7 = restTemplate.exchange("/api/clients", HttpMethod.POST, new HttpEntity<>(clientDTO2, createHeaders(loginResponse.getBody())), ClientDTO.class);
+        ResponseEntity<ClientDTO> postResponse7 = restTemplate.exchange("/api/clients", HttpMethod.POST, new HttpEntity<>(clientDTO2, createHeaders(loginResponse.getBody(), postResponse6.getHeaders().get("Set-Cookie").get(1))), ClientDTO.class);
         assertEquals(postResponse7.getStatusCode(), HttpStatus.CREATED);
 
 
         //Clients mappen
 
-        ResponseEntity<String> putResponse5 = restTemplate.exchange("/api/mapping", HttpMethod.PUT, new HttpEntity<>("", createHeaders(loginResponse.getBody())), String.class);
+        ResponseEntity<String> putResponse5 = restTemplate.exchange("/api/mapping", HttpMethod.PUT, new HttpEntity<>("", createHeaders(loginResponse.getBody(), postResponse7.getHeaders().get("Set-Cookie").get(1))), String.class);
         assertEquals(putResponse5.getStatusCode(), HttpStatus.OK);
         assertEquals(putResponse5.getBody(), "Es wurden 4 Adressen angepasst und 0 Mandaten angelegt.");
 
 
         // ClientToPrints erstellen
 
-        ResponseEntity<String> putResponse6 = restTemplate.exchange("/api/mapping/convert", HttpMethod.PUT, new HttpEntity<>("", createHeaders(loginResponse.getBody())), String.class);
+        ResponseEntity<String> putResponse6 = restTemplate.exchange("/api/mapping/convert", HttpMethod.PUT, new HttpEntity<>("", createHeaders(loginResponse.getBody(), putResponse5.getHeaders().get("Set-Cookie").get(1))), String.class);
         assertEquals(putResponse6.getStatusCode(), HttpStatus.OK);
         assertEquals(putResponse6.getBody(), "Rechnungs-Daten wurden erfolgreich erstellt.");
 
@@ -115,34 +115,36 @@ class MappingControllerTest {
         ItemDTO item1 = ItemDTO.of(newItem1);
         ItemDTO item2 = ItemDTO.of(newItem2);
 
-        ResponseEntity<ItemDTO> postResponse1 = restTemplate.exchange("/api/import", HttpMethod.POST, new HttpEntity<>(item1, createHeaders(loginResponse.getBody())), ItemDTO.class);
+        ResponseEntity<ItemDTO> postResponse1 = restTemplate.exchange("/api/import", HttpMethod.POST, new HttpEntity<>(item1, createHeaders(loginResponse.getBody(), loginResponse.getHeaders().get("Set-Cookie").get(0))), ItemDTO.class);
         assertEquals(postResponse1.getStatusCode(), HttpStatus.CREATED);
-        ResponseEntity<ItemDTO> postResponse2 = restTemplate.exchange("/api/import", HttpMethod.POST, new HttpEntity<>(item2, createHeaders(loginResponse.getBody())), ItemDTO.class);
-        assertEquals(postResponse1.getStatusCode(), HttpStatus.CREATED);
+        ResponseEntity<ItemDTO> postResponse2 = restTemplate.exchange("/api/import", HttpMethod.POST, new HttpEntity<>(item2, createHeaders(loginResponse.getBody(), postResponse1.getHeaders().get("Set-Cookie").get(1))), ItemDTO.class);
+        assertEquals(postResponse2.getStatusCode(), HttpStatus.CREATED);
 
 
         //Client anlegen
         Client clientDB1 = new Client("12345",address1, true, 3, 2);
         ClientDTO clientDTO1 =  ClientDTO.of(clientDB1);
 
-        ResponseEntity<ClientDTO> postResponse3 = restTemplate.exchange("/api/clients", HttpMethod.POST, new HttpEntity<>(clientDTO1, createHeaders(loginResponse.getBody())), ClientDTO.class);
+        ResponseEntity<ClientDTO> postResponse3 = restTemplate.exchange("/api/clients", HttpMethod.POST, new HttpEntity<>(clientDTO1, createHeaders(loginResponse.getBody(), postResponse2.getHeaders().get("Set-Cookie").get(1))), ClientDTO.class);
         assertEquals(postResponse3.getStatusCode(), HttpStatus.CREATED);
 
 
         String id = postResponse1.getBody().getLinks().get(0).getHref();
 
         //mappen
-        ResponseEntity<String> putResponse1 = restTemplate.exchange(id, HttpMethod.PUT, new HttpEntity<>("", createHeaders(loginResponse.getBody())), String.class);
+        ResponseEntity<String> putResponse1 = restTemplate.exchange(id, HttpMethod.PUT, new HttpEntity<>("", createHeaders(loginResponse.getBody(), postResponse3.getHeaders().get("Set-Cookie").get(1))), String.class);
         assertEquals(putResponse1.getStatusCode(), HttpStatus.OK);
         assertEquals(putResponse1.getBody(),"Die Adresse wurde übernommen bzw. neuer Mandant wurde angelegt");
 
     }
 
-    private HttpHeaders createHeaders(String token){
+    private HttpHeaders createHeaders(String token, String csrf){
         String authHeader = "Bearer " + token;
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", authHeader);
-
+        String csrfNew = csrf.substring(11,csrf.indexOf(';')).trim();
+        headers.set("X-XSRF-TOKEN", csrfNew);
+        headers.set("Cookie", "XSRF-TOKEN="+csrf.substring(11));
         return headers;
     }
 

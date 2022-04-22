@@ -54,29 +54,29 @@ class ClientControllerTest {
         ClientDTO client2 = new ClientDTO("Würstchenbude6", "Heimathafen 1", "225005 Helgoland", true, 5, 3, links);
         ClientDTO client3 = new ClientDTO("Würstchenbude3", "Heimathafen 1", "225005 Helgoland", true, 5, 3, links);
 
-        ResponseEntity<ClientDTO> postResponse1 = restTemplate.exchange("/api/clients", HttpMethod.POST, new HttpEntity<>(client1, createHeaders(loginResponse.getBody())), ClientDTO.class);
+        ResponseEntity<ClientDTO> postResponse1 = restTemplate.exchange("/api/clients", HttpMethod.POST, new HttpEntity<>(client1, createHeaders(loginResponse.getBody(), loginResponse.getHeaders().get("Set-Cookie").get(0))), ClientDTO.class);
         assertEquals(postResponse1.getStatusCode(), HttpStatus.CREATED);
 
 
         String client1ID=postResponse1.getBody().getLinks().get(0).getHref();
 
-        ResponseEntity<ClientDTO> putResponse = restTemplate.exchange(client1ID, HttpMethod.PUT, new HttpEntity<>(client3, createHeaders(loginResponse.getBody())), ClientDTO.class);
+        ResponseEntity<ClientDTO> putResponse = restTemplate.exchange(client1ID, HttpMethod.PUT, new HttpEntity<>(client3, createHeaders(loginResponse.getBody(), postResponse1.getHeaders().get("Set-Cookie").get(1))), ClientDTO.class);
         assertEquals(putResponse.getStatusCode(), HttpStatus.OK);
 
 
-        ResponseEntity<ClientDTO> postResponse10 = restTemplate.exchange("/api/clients", HttpMethod.POST, new HttpEntity<>(client2, createHeaders(loginResponse.getBody())), ClientDTO.class);
+        ResponseEntity<ClientDTO> postResponse10 = restTemplate.exchange("/api/clients", HttpMethod.POST, new HttpEntity<>(client2, createHeaders(loginResponse.getBody(), putResponse.getHeaders().get("Set-Cookie").get(1))), ClientDTO.class);
         assertEquals(postResponse10.getStatusCode(), HttpStatus.CREATED);
 
 
-        ResponseEntity<ClientDTO[]> getResponse = restTemplate.exchange("/api/clients", HttpMethod.GET, new HttpEntity<>("", createHeaders(loginResponse.getBody())), ClientDTO[].class);
+        ResponseEntity<ClientDTO[]> getResponse = restTemplate.exchange("/api/clients", HttpMethod.GET, new HttpEntity<>("", createHeaders(loginResponse.getBody(), postResponse10.getHeaders().get("Set-Cookie").get(1))), ClientDTO[].class);
         assertEquals(getResponse.getStatusCode(), HttpStatus.OK);
         assertEquals(getResponse.getBody().length, 5); //2
 
 
-        ResponseEntity<Void> DeleteResponse = restTemplate.exchange(client1ID, HttpMethod.DELETE, new HttpEntity<>("", createHeaders(loginResponse.getBody())), Void.class);
+        ResponseEntity<Void> DeleteResponse = restTemplate.exchange(client1ID, HttpMethod.DELETE, new HttpEntity<>("", createHeaders(loginResponse.getBody(), getResponse.getHeaders().get("Set-Cookie").get(1))), Void.class);
         assertEquals(DeleteResponse.getStatusCode(), HttpStatus.OK);
 
-        ResponseEntity<ClientDTO[]> getResponse2 = restTemplate.exchange("/api/clients", HttpMethod.GET, new HttpEntity<>("", createHeaders(loginResponse.getBody())), ClientDTO[].class);
+        ResponseEntity<ClientDTO[]> getResponse2 = restTemplate.exchange("/api/clients", HttpMethod.GET, new HttpEntity<>("", createHeaders(loginResponse.getBody(), DeleteResponse.getHeaders().get("Set-Cookie").get(1))), ClientDTO[].class);
         assertEquals(getResponse2.getStatusCode(), HttpStatus.OK);
         assertTrue(getResponse2.getBody().length == 4); //1
 
@@ -85,11 +85,13 @@ class ClientControllerTest {
 
 
 
-    private HttpHeaders createHeaders(String token){
+    private HttpHeaders createHeaders(String token, String csrf){
         String authHeader = "Bearer " + token;
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", authHeader);
-
+        String csrfNew = csrf.substring(11,csrf.indexOf(';')).trim();
+        headers.set("X-XSRF-TOKEN", csrfNew);
+        headers.set("Cookie", "XSRF-TOKEN="+csrf.substring(11));
         return headers;
     }
 

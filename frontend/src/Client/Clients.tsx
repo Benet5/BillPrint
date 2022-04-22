@@ -26,7 +26,7 @@ export default function Clients() {
         axios.get(`${process.env.REACT_APP_BASE_URL}/api/clients`, {
             headers: {
                 'Content-Type': 'application/json',
-                Authorization: `Bearer ${token}`
+                Authorization: `Bearer ${token}`,
             },
         }).then(response => {
             if (response.status === 200) {
@@ -54,7 +54,8 @@ export default function Clients() {
             },{
          headers: {
                 'Content-Type': 'application/json',
-                 Authorization: `Bearer ${token}`
+                 Authorization: `Bearer ${token}`,
+                'X-XSRF-TOKEN': document.cookie.replace(/(?:(?:^|.*;\s*)XSRF-TOKEN\s*=\s*([^;]*).*$)|^.*$/, '$1'),
             }})
             .then(getClientData)
             .catch(error => {
@@ -83,7 +84,8 @@ export default function Clients() {
             }, {
                 headers: {
                     'Content-Type': 'application/json',
-                    Authorization: `Bearer ${token}`
+                    Authorization: `Bearer ${token}`,
+                    'X-XSRF-TOKEN': document.cookie.replace(/(?:(?:^|.*;\s*)XSRF-TOKEN\s*=\s*([^;]*).*$)|^.*$/, '$1'),
                 }
             }).then(getClientData)
                 .then(() => setClientToChange({
@@ -117,7 +119,8 @@ export default function Clients() {
             axios.delete(`${process.env.REACT_APP_BASE_URL}${links.find(l => l.rel === 'self')?.href}`, {
                 headers: {
                     'Content-Type': 'application/json',
-                    Authorization: `Bearer ${token}`
+                    Authorization: `Bearer ${token}`,
+                    'X-XSRF-TOKEN': document.cookie.replace(/(?:(?:^|.*;\s*)XSRF-TOKEN\s*=\s*([^;]*).*$)|^.*$/, '$1'),
                 }
             }).then(getClientData)
                 .then(() => setClientToChange({
