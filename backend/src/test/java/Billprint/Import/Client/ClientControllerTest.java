@@ -70,7 +70,7 @@ class ClientControllerTest {
 
         ResponseEntity<ClientDTO[]> getResponse = restTemplate.exchange("/api/clients", HttpMethod.GET, new HttpEntity<>("", createHeaders(loginResponse.getBody(), postResponse10.getHeaders().get("Set-Cookie").get(1))), ClientDTO[].class);
         assertEquals(getResponse.getStatusCode(), HttpStatus.OK);
-        assertEquals(getResponse.getBody().length, 5); //2
+        assertEquals(getResponse.getBody().length, 2); //5
 
 
         ResponseEntity<Void> DeleteResponse = restTemplate.exchange(client1ID, HttpMethod.DELETE, new HttpEntity<>("", createHeaders(loginResponse.getBody(), getResponse.getHeaders().get("Set-Cookie").get(1))), Void.class);
@@ -78,7 +78,7 @@ class ClientControllerTest {
 
         ResponseEntity<ClientDTO[]> getResponse2 = restTemplate.exchange("/api/clients", HttpMethod.GET, new HttpEntity<>("", createHeaders(loginResponse.getBody(), DeleteResponse.getHeaders().get("Set-Cookie").get(1))), ClientDTO[].class);
         assertEquals(getResponse2.getStatusCode(), HttpStatus.OK);
-        assertTrue(getResponse2.getBody().length == 4); //1
+        assertTrue(getResponse2.getBody().length == 1); //4
 
 
     }

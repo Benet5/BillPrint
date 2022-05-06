@@ -51,8 +51,8 @@ class MappingControllerTest {
         Ad ad = adDTO.toAd();
         Address address1 = new Address("Würstchenbude2", "Heimathafen 1", "225005 Helgoland");
         Address address2 = new Address("Döner", "Heimathafen 4", "225005 Helgoland");
-        Item newItem1 = new Item("12344", "OTTO GmBH & Co KG", "bla", ad, "Würstchenbude2", address1);
-        Item newItem2 = new Item("12344", "OTTO GmBH & Co KG", "bla", ad, "Würstchenbude2", address1);
+        Item newItem1 = new Item("12344", "Donalds Polierservice", "bla", ad, "Würstchenbude2", address1);
+        Item newItem2 = new Item("12344", "Donalds Polierservice", "bla", ad, "Würstchenbude2", address1);
         ItemDTO item1 = ItemDTO.of(newItem1);
         ItemDTO item2 = ItemDTO.of(newItem2);
 
@@ -106,12 +106,12 @@ class MappingControllerTest {
         assertThat(loginResponse.getBody()).isNotEmpty();
 
         //Items anlegen
-        AdDTO adDTO = new AdDTO("Developer", "Professional", 30, "Refund", "25.10.2022", "Hamburg");
+        AdDTO adDTO = new AdDTO("Developer", "Professional", 30, "Refund", "25.10.2022", "Entenhausen");
         Ad ad = adDTO.toAd();
         Address address1 = new Address("Würstchenbude", "Heimathafen 1", "225005 Helgoland");
 
-        Item newItem1 = new Item("12344", "OTTO GmBH & Co KG", "bla", ad, "Würstchenbude", address1);
-        Item newItem2 = new Item("12344", "OTTO GmBH & Co KG", "bla", ad, "Würstchenbude", address1);
+        Item newItem1 = new Item("12344", "Donalds Polierservice", "bla", ad, "Würstchenbude", address1);
+        Item newItem2 = new Item("12344", "Donalds Polierservice", "bla", ad, "Würstchenbude", address1);
         ItemDTO item1 = ItemDTO.of(newItem1);
         ItemDTO item2 = ItemDTO.of(newItem2);
 

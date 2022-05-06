@@ -19,8 +19,8 @@ public class WhitelistService {
     }
 
     public boolean check(String email){
-        Optional<Whitelist> actual = whitelistRepo.findByEmail(email);
-        return actual.isPresent();
+            Optional<Whitelist> actual = whitelistRepo.findByEmail(email);
+            return actual.isPresent();
     }
 
     public List<UserDTO> findAll(){

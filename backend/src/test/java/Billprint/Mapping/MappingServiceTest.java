@@ -33,25 +33,25 @@ class MappingServiceTest {
 
         MappingService mappingService = new MappingService(clientService, importService, clientToPrintRepo);
 
-        AdDTO adDTO = new AdDTO("Developer", "Professional", 30, "Refund", "25.10.2022", "Hamburg");
+        AdDTO adDTO = new AdDTO("Developer", "Professional", 30, "Refund", "25.10.2022", "Entenhausen");
         Ad ad = adDTO.toAd();
-        Address address = new Address("OSSG", "Werner-Otto-Straße 45", "0815 Hamburg");
-        Item newItem1 = new Item("12344", "OTTO GmBH & Co KG", "bla", ad, "OTTO GmBH & Co KG", address);
-        Item newItem2 = new Item("12345", "OSSG", "bla", ad, "OSSG", address);
+        Address address = new Address("Daisy Gold", "Gansweg 23", "0815 Entenhausen");
+        Item newItem1 = new Item("12344", "Donalds Polierservice", "bla", ad, "Donalds Polierservice", address);
+        Item newItem2 = new Item("12345", "Daisy Gold", "bla", ad, "Daisy Gold", address);
 
 
-        Address address1 = new Address("OTTO GmBH & Co KG", "Werner-Otto-Straße 1-7", "Hamburg");
+        Address address1 = new Address("Donalds Polierservice", "Gansweg 1", "Entenhausen");
         Client clientDB = new Client("12345", address1, true, 3, 1);
         Client newClient = new Client(null, address, false, 0,0);
 
         when(importRepo.findAll()).thenReturn(List.of(newItem2, newItem1));
-        when(clientRepo.findByAddressName("OTTO GmBH & Co KG")).thenReturn(Optional.of(clientDB));
+        when(clientRepo.findByAddressName("Donalds Polierservice")).thenReturn(Optional.of(clientDB));
         when(importRepo.save(newItem1)).thenReturn(newItem1);
         when(clientService.createClient(newClient)).thenReturn(newClient);
 
         String actual = mappingService.mappingAll();
         assertEquals("Es wurden 1 Adressen angepasst und 1 Mandaten angelegt.", actual);
-       assertTrue(newItem1.getAddress().getStreet().equals("Werner-Otto-Straße 1-7"));
+       assertTrue(newItem1.getAddress().getStreet().equals("Gansweg 1"));
        verify(clientRepo).save(newClient);
 
 
@@ -67,20 +67,20 @@ class MappingServiceTest {
     ImportService importService = new ImportService(importRepo);
     MappingService mappingService = new MappingService(clientService, importService, clientToPrintRepo);
 
-    AdDTO adDTO = new AdDTO("Developer", "Professional", 30, "Refund", "25.10.2022", "Hamburg");
+    AdDTO adDTO = new AdDTO("Developer", "Professional", 30, "Refund", "25.10.2022", "Entenhausen");
     Ad ad = adDTO.toAd();
-    Address address1 = new Address("OTTO GmBH & Co KG", "Werner-Otto-Straße 1-7", "Hamburg");
-    Address address = new Address("OSSG", "Werner-Otto-Straße 45", "0815 Hamburg");
+    Address address1 = new Address("Donalds Polierservice", "Gansweg 1", "Entenhausen");
+    Address address = new Address("Daisy Gold", "Gansweg 23", "0815 Entenhausen");
     Client clientDB = new Client("12345", address1, true, 3, 1);
-    Item newItem3 = new Item("12344", "OTTO GmBH & Co KG", "bla", ad, "OTTO GmBH & Co KG", address);
+    Item newItem3 = new Item("12344", "Donalds Polierservice", "bla", ad, "Donalds Polierservice", address);
 
     when(importRepo.findById("12344")).thenReturn(Optional.of(newItem3));
-    when(clientRepo.findByAddressName("OTTO GmBH & Co KG")).thenReturn(Optional.of(clientDB));
+    when(clientRepo.findByAddressName("Donalds Polierservice")).thenReturn(Optional.of(clientDB));
     when(importRepo.save(newItem3)).thenReturn(newItem3);
 
     mappingService.mappingSelected("12344");
 
-    assertTrue(newItem3.getAddress().getStreet().equals("Werner-Otto-Straße 1-7"));
+    assertTrue(newItem3.getAddress().getStreet().equals("Gansweg 1"));
     verify(importRepo).save(newItem3);
 
 
@@ -96,18 +96,18 @@ class MappingServiceTest {
         ImportService importService = new ImportService(importRepo);
         MappingService mappingService = new MappingService(clientService, importService, clientToPrintRepo);
 
-        AdDTO adDTO = new AdDTO("Developer", "Professional", 30, "First Offer", "25.10.2022", "Hamburg");
+        AdDTO adDTO = new AdDTO("Developer", "Professional", 30, "First Offer", "25.10.2022", "Entenhausen");
         Ad ad = adDTO.toAd();
-        Address address = new Address("OTTO GmBH & Co KG", "Werner-Otto-Straße 1-7", "Hamburg");
-        Address address1 = new Address("OSSG", "Werner-Otto-Straße 1-7", "Hamburg");
-        Item newItem1 = new Item("12344","OTTO", "bla", ad, "OTTO GmBH & Co KG", address);
-        Item newItem2 = new Item("12345", "OTTO", "bla", ad, "OTTO GmBH & Co KG", address);
-        Item newItem3 = new Item("12344","OSSG", "bla", ad, "OSSG", address1);
-        Item newItem4 = new Item("12345", "OSSG", "bla", ad, "OSSG", address1);
+        Address address = new Address("Donalds Polierservice", "Gansweg 1", "Entenhausen");
+        Address address1 = new Address("Daisy Gold", "Gansweg 1", "Entenhausen");
+        Item newItem1 = new Item("12344","Donalds Polierservice", "bla", ad, "Donalds Polierservice", address);
+        Item newItem2 = new Item("12345", "Donalds Polierservice", "bla", ad, "Donalds Polierservice", address);
+        Item newItem3 = new Item("12344","Daisy Gold", "bla", ad, "Daisy Gold", address1);
+        Item newItem4 = new Item("12345", "Daisy Gold", "bla", ad, "Daisy Gold", address1);
         List <Item> items1 = List.of(newItem1, newItem2);
         List <Item> items2 = List.of(newItem3, newItem4);
-        when(importRepo.findAllByName("OSSG")).thenReturn(items2);
-        when(importRepo.findAllByName("OTTO GmBH & Co KG")).thenReturn(items1);
+        when(importRepo.findAllByName("Daisy Gold")).thenReturn(items2);
+        when(importRepo.findAllByName("Donalds Polierservice")).thenReturn(items1);
 
         Client client1 = new Client ("12345", address, true, 2, 1);
         Client client2 = new Client ("12346", address1, true, 2, 1);
@@ -138,11 +138,11 @@ class MappingServiceTest {
         ImportService importService = new ImportService(importRepo);
         MappingService mappingService = new MappingService(clientService, importService, clientToPrintRepo);
 
-        AdDTO adDTO = new AdDTO("Developer", "Professional", 30, "First Offer", "25.10.2022", "Hamburg");
+        AdDTO adDTO = new AdDTO("Developer", "Professional", 30, "First Offer", "25.10.2022", "Entenhausen");
         Ad ad = adDTO.toAd();
-        Address address = new Address("OTTO GmBH & Co KG", "Werner-Otto-Straße 1-7", "Hamburg");
-        Item newItem1 = new Item("12344","OTTO", "bla", ad, "OTTO GmBH & Co KG", address);
-        Item newItem2 = new Item("12345", "OTTO", "bla", ad, "OTTO GmBH & Co KG", address);
+        Address address = new Address("Donalds Polierservice", "Gansweg 1", "Entenhausen");
+        Item newItem1 = new Item("12344","Donalds Polierservice", "bla", ad, "Donalds Polierservice", address);
+        Item newItem2 = new Item("12345", "Donalds Polierservice", "bla", ad, "Donalds Polierservice", address);
         List <Item> items1 = List.of(newItem1, newItem2);
 
 
@@ -150,14 +150,14 @@ class MappingServiceTest {
         Client clientToUpdate = new Client ("12345", address, true, 3, 0);
         Client updatedClient = new Client ("12345", address, true, 3, 0);
         when(clientRepo.findAll()).thenReturn(List.of(clientToUpdate));
-        when(importRepo.findAllByName("OTTO GmBH & Co KG")).thenReturn(items1);
+        when(importRepo.findAllByName("Donalds Polierservice")).thenReturn(items1);
 
         ClientToPrint clientToPrintDB = new ClientToPrint(clientDB, importService);
         ClientToPrint clientToPrintUpdate = new ClientToPrint(clientToUpdate, importService);
         ClientToPrint updatedClientToPrint = new ClientToPrint(updatedClient, importService);
 
 
-        when(clientToPrintRepo.findByAddressName("OTTO GmBH & Co KG")).thenReturn(Optional.of(clientToPrintDB));
+        when(clientToPrintRepo.findByAddressName("Donalds Polierservice")).thenReturn(Optional.of(clientToPrintDB));
         when(clientToPrintRepo.save(clientToPrintUpdate)).thenReturn(updatedClientToPrint);
 
         List <ClientToPrint> actual = mappingService.convertClient();
